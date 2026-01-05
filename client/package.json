@@ -43,11 +43,18 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-storybook": "^10.1.11",
     "globals": "^16.5.0",
+    "msw": "^2.12.7",
+    "msw-storybook-addon": "^2.0.6",
     "playwright": "^1.57.0",
     "storybook": "^10.1.11",
     "typescript": "~5.9.3",
     "typescript-eslint": "^8.46.4",
     "vite": "^7.2.4",
     "vitest": "^4.0.16"
+  },
+  "msw": {
+    "workerDirectory": [
+      "public"
+    ]
   }
 }

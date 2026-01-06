@@ -1,8 +1,9 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { api } from "../api";
 import { userReducer } from "../user/user.slice";
+import { api } from "../api";
+import type { RootState } from "./store";
 
-export const store = configureStore({
+export const getState = (init: RootState) => configureStore({
     reducer: {
         user: userReducer,
         [api.reducerPath]: api.reducer
@@ -10,8 +11,5 @@ export const store = configureStore({
     middleware: getDefaultMiddleware =>
         getDefaultMiddleware()
             .concat(api.middleware),
+    preloadedState: init
 })
-
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
-export type AppStore = typeof store

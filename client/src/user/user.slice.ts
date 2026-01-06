@@ -1,0 +1,33 @@
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit"
+
+export interface UserSlice {
+    data?: {
+        id: string
+        username: string
+        token: string
+    }
+}
+
+const initialState: UserSlice = {}
+
+export const userSlice = createSlice({
+    name: "user",
+    initialState,
+    reducers: {
+
+        setData: (state, action: PayloadAction<UserSlice['data']>) => {
+            state.data = action.payload
+        },
+
+        reset: (state) => {
+            state.data = undefined
+        }
+    }
+})
+
+export const {
+    setData,
+    reset
+} = userSlice.actions
+
+export const userReducer = userSlice.reducer

@@ -24,5 +24,6 @@ export const bookApi = api.injectEndpoints({
 })
 
 export const {
+    useSearchQuery,
     useLazySearchQuery
 } = bookApi

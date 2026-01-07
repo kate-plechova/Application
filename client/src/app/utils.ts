@@ -3,7 +3,7 @@ import { userReducer } from "../user/user.slice";
 import { api } from "../api";
 import type { RootState } from "./store";
 
-export const getState = (init: RootState) => configureStore({
+export const getStore = (init: Omit<RootState, "api">) => configureStore({
     reducer: {
         user: userReducer,
         [api.reducerPath]: api.reducer

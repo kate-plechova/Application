@@ -19,7 +19,19 @@ export const userApi = api.injectEndpoints({
                 method: "POST",
                 body: auth
             })
-        }) 
+        }), 
+
+        saveBookmark: builder.mutation<void, string>({
+            queryFn: () => {
+                throw new Error()
+            }
+        }),
+
+        removeBookmark: builder.mutation<void, string>({
+            queryFn: () => {
+                throw new Error()
+            }
+        })
 
     })
 
@@ -27,5 +39,8 @@ export const userApi = api.injectEndpoints({
 
 export const {
     useSignupMutation,
-    useSigninMutation
+    useSigninMutation,
+
+    useSaveBookmarkMutation,
+    useRemoveBookmarkMutation
 } = userApi

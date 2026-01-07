@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import { useForm } from 'react-hook-form'
 import { useLazySearchQuery } from "../../book.api";
+import { BookOpenIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
 
 export interface SearchParams {
     title?: string
@@ -8,9 +9,13 @@ export interface SearchParams {
     publisher?: string
 }
 
-export const SearchForm: FC = () => {
+export interface SearchFormProps {
+    search: (params: SearchParams) => void
+}
 
-    const [search, ] = useLazySearchQuery()
+export const SearchForm: FC<SearchFormProps> = ({search}) => {
+
+    // const [search, ] = useLazySearchQuery()
 
     const {
         register,
@@ -31,23 +36,39 @@ export const SearchForm: FC = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
-            {errors.root && <div style={{ color: 'red' }}>{errors.root.message}</div>}
-            <input
-                type='text'
-                placeholder="title"
-                className="input"
-                {...register('title')}
-            />
+        <form 
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col justify-between items-center p-4"
+        >
+            <div className="flex flex-row justify-between items-center gap-4">
+                
+                {/* {errors.root && <div style={{ color: 'red' }}>{errors.root.message}</div>} */}
+                <label className="input">
+                    <BookOpenIcon className="w-5 h-5" />
+                    <input
+                        type='search'
+                        placeholder="title"
+                        className="grow"
+                        {...register('title')}
+                    />
+                </label>
 
-            <input
-                type='text'
-                placeholder="author"
-                className="input"
-                {...register('author')}
-            />
+                <label className="input">
+                    <UserIcon className="w-5 h-5" />
+                    <input
+                        type='search'
+                        placeholder="author"
+                        className="grow"
+                        {...register('author')}
+                    />
+                </label>
 
-            <button type='submit'>Search</button>
+                <button type='submit' className="btn"><MagnifyingGlassIcon className="w-5 h-5" /> Search</button>
+            </div>
+
+            <div>
+                {errors.root && <div style={{ color: 'red' }}>{errors.root.message}</div>}
+            </div>
         </form>
     )
 }

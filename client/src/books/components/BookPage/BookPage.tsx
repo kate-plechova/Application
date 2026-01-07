@@ -3,25 +3,19 @@ import { SearchForm } from "../SearchForm/SearchForm";
 import { useLazySearchQuery } from "../../book.api";
 import { BookTable } from "../BookTable/BookTable";
 import { BookItem } from "../BookItem/BookItem";
+import { Books } from "../Books/Books";
 
 export const BookPage: FC = () => {
 
-    const [, {data}] = useLazySearchQuery()
+    const [search, {data}] = useLazySearchQuery()
 
     return (
-        <div className="w-full h-full">
-            <SearchForm />
-
-            {data ? (
-                <BookTable>
-                    {data.map(item => <BookItem key={item.id} {...item}/>)}
-                </BookTable>
-
-            )
-            : (
-                <div>No data</div>
-            )            
-            }
+        <div 
+            className="w-full h-full grow justify-center items-center"
+            // data-theme='light'
+        >
+            <SearchForm search={search}/>
+            <Books books={data}/>
         </div>
     )
 }

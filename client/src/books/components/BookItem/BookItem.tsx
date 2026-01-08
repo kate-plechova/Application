@@ -1,6 +1,7 @@
 import type { FC } from "react";
 import dayjs from "dayjs";
 import { BookmarkIcon } from "@heroicons/react/24/outline";
+import { useRemoveBookmarkMutation, useSaveBookmarkMutation } from "../../../user/user.api";
 
 export interface Book {
     id: string
@@ -14,6 +15,7 @@ export interface Book {
 }
 
 export const BookItem: FC<Book> = ({ 
+    id,
     title, 
     author, 
     translations, 
@@ -22,9 +24,29 @@ export const BookItem: FC<Book> = ({
     rating,
     isBookmarked
 }) => {
+
+    const [saveBookmark, ] = useSaveBookmarkMutation()
+    const [removeBookmark, ] = useRemoveBookmarkMutation()
+
+    const handleBookmarkStatusChange = () => {
+        if(isBookmarked === true){
+            removeBookmark(id)
+        }
+        else if(isBookmarked === false){
+            saveBookmark(id)
+        }
+    }
+
     return (
         <tr className="text-slate-700">
-            {isBookmarked !== undefined && <td><BookmarkIcon className={`${isBookmarked ? "text-yellow-300" : "text-slate-400"}`}/></td>}
+            {isBookmarked !== undefined && (
+                <td>
+                    <BookmarkIcon 
+                        className={`${isBookmarked ? "text-yellow-300" : "text-slate-400"}`}
+                        onClick={handleBookmarkStatusChange}
+                    />
+                </td>
+            )}
             <th>{author}</th>
             <td>
                 <div className="flex flex-col justify-between items-start">

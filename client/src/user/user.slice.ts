@@ -5,10 +5,13 @@ export interface UserSlice {
         id: string
         username: string
         token: string
-    }
+    },
+    onBookmakrks: boolean
 }
 
-const initialState: UserSlice = {}
+const initialState: UserSlice = {
+    onBookmakrks: false
+}
 
 export const userSlice = createSlice({
     name: "user",

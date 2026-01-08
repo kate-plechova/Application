@@ -1,4 +1,4 @@
-import { IsArray, IsNotEmpty, IsNumber, IsString, MinLength } from 'class-validator'
+import { IsArray, IsBoolean, IsNotEmpty, IsNumber, IsOptional, IsString, MinLength } from 'class-validator'
 
 export class BookDto {
     @IsString()
@@ -27,4 +27,8 @@ export class BookDto {
 
     @IsNumber()
     rating: number = 0
+
+    @IsBoolean()
+    @IsOptional()
+    isBookmarked?: boolean | null
 }

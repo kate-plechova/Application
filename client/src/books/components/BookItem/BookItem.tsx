@@ -1,5 +1,6 @@
 import type { FC } from "react";
 import dayjs from "dayjs";
+import { BookmarkIcon } from "@heroicons/react/24/outline";
 
 export interface Book {
     id: string
@@ -9,6 +10,7 @@ export interface Book {
     publisher: string;
     publishDate: string;
     rating: number;
+    isBookmarked?: boolean
 }
 
 export const BookItem: FC<Book> = ({ 
@@ -17,10 +19,12 @@ export const BookItem: FC<Book> = ({
     translations, 
     publisher,
     publishDate,
-    rating
+    rating,
+    isBookmarked
 }) => {
     return (
         <tr className="text-slate-700">
+            {isBookmarked !== undefined && <td><BookmarkIcon className={`${isBookmarked ? "text-yellow-300" : "text-slate-400"}`}/></td>}
             <th>{author}</th>
             <td>
                 <div className="flex flex-col justify-between items-start">

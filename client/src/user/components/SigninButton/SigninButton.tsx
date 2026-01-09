@@ -1,30 +1,40 @@
-import { useState, type FC } from "react";
+import { useState, useRef, type FC } from "react";
 import { SignIn } from "../SignIn/SignIn";
 import { SignUp } from "../SignUp/SignUp";
+import { UserIcon } from "@heroicons/react/24/outline";
 
 export const SigninButton: FC = () => {
 
     const [onSignin, setOnSignin] = useState(true)
+    const dialogRef = useRef<HTMLDialogElement>(null)
+
+    const toSignUp = () => {
+        setOnSignin(false)
+    }
+
+    const toSignIn = () => {
+        setOnSignin(true)
+    }
 
     const handleModal = () => {
-        const dialog = document.getElementById("auth") as HTMLDialogElement | null
-        if(dialog){
-            dialog.showModal()
-        }
-    
+        dialogRef.current?.showModal()
+    }
+
+    const closeModal = () => {
+        dialogRef.current?.close()
     }
 
     return (
-        <div>
-            <span>Guest</span>
-            <button className="btn btn-outline" onClick={handleModal}>Sign in</button>
+        <div className="flex flex-row justify-start items-center">
+            {/* <span>Guest</span> */}
+            <button className="btn-sm flex flex-row gap-4" onClick={handleModal}><UserIcon className="w-5 h-5"/> Sign in</button>
             <dialog 
+                ref={dialogRef}
                 id='auth' 
                 className="modal" 
-                // data-theme='light'
             >
                 <div className="modal-box">
-                    {onSignin ? <SignIn /> : <SignUp />}
+                    {onSignin ? <SignIn closeModal={closeModal} /> : <SignUp toSignIn={toSignIn}/>}
                     <button
                         className="btn btn-outline"
                         onClick={() => setOnSignin(i => !i)}

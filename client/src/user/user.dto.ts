@@ -11,6 +11,15 @@ export class AuthorizationDto {
 }
 
 export class SigninResponseDto {
+
+    @IsString()
+    @IsNotEmpty()
+    id: string = ""
+
+    @IsString()
+    @IsNotEmpty()
+    username: string = ""
+
     @IsString()
     @IsNotEmpty()
     token: string = ""

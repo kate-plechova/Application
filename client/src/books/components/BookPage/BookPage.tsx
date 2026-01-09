@@ -1,13 +1,24 @@
-import type { FC } from "react";
+import { useEffect, type FC } from "react";
 import { SearchForm } from "../SearchForm/SearchForm";
-import { useLazySearchQuery } from "../../book.api";
+import { useLazyGetBookmarkedQuery, useLazySearchQuery } from "../../book.api";
 import { BookTable } from "../BookTable/BookTable";
 import { BookItem } from "../BookItem/BookItem";
 import { Books } from "../Books/Books";
+import { useAppSelector } from "../../../app/hooks";
+import { selectIsOnBookmarks } from "../../../user/user.selectors";
 
 export const BookPage: FC = () => {
 
-    const [search, {data}] = useLazySearchQuery()
+    const [search, {data: searchResult}] = useLazySearchQuery()
+    const [getBookmarked, {data: bookmarked}] = useLazyGetBookmarkedQuery()
+
+    const onBookmarks = useAppSelector(selectIsOnBookmarks)
+
+    useEffect(() => {
+        if(onBookmarks){
+            getBookmarked()
+        }
+    }, [onBookmarks]) 
 
     return (
         <div 
@@ -15,7 +26,7 @@ export const BookPage: FC = () => {
             // data-theme='light'
         >
             <SearchForm search={search}/>
-            <Books books={data}/>
+            <Books books={onBookmarks ? bookmarked : searchResult}/>
         </div>
     )
 }

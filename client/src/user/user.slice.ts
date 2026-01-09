@@ -24,13 +24,19 @@ export const userSlice = createSlice({
 
         reset: (state) => {
             state.data = undefined
+            state.onBookmakrks = false
+        },
+
+        showBookmarks: (state, action: PayloadAction<boolean>) => {
+            state.onBookmakrks = action.payload
         }
     }
 })
 
 export const {
     setData,
-    reset
+    reset,
+    showBookmarks
 } = userSlice.actions
 
 export const userReducer = userSlice.reducer

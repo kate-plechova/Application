@@ -10,7 +10,9 @@ export interface SearchResult {
 }
 
 export const bookApi = api.injectEndpoints({
+
     endpoints: (builder) => ({
+        
         search: builder.query<Book[], SearchParams>({
             query: ({title, author, publisher}) => ({
                 url: 'books',
@@ -19,11 +21,22 @@ export const bookApi = api.injectEndpoints({
             transformResponse: (response: SearchResult): Book[] => {
                 return response.books.map(bookDtoToBook);
             },
+        }),
+
+        getBookmarked: builder.query<Book[], void>({
+            query: () => ({
+                url: 'books/bookmarks'
+            }),
+            transformResponse: (response: SearchResult): Book[] => {
+                return response.books.map(bookDtoToBook)
+            },
+            providesTags: ['Bookmarks']
         })
     })
 })
 
 export const {
     useSearchQuery,
-    useLazySearchQuery
+    useLazySearchQuery,
+    useLazyGetBookmarkedQuery 
 } = bookApi

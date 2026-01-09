@@ -5,6 +5,7 @@ import { http, HttpResponse } from 'msw';
 import { getRandomBookDto } from './books/books.utils';
 import type { SearchResult } from './books/book.api';
 import type { Auth } from './user/components/AuthForm/AuthForm';
+import type { SigninResponseDto } from './user/user.dto';
 
 const meta = {
   title: 'App/App',
@@ -46,6 +47,16 @@ export const Primary: Story = {
                     return HttpResponse.json(res)
                 }),
 
+                http.get(`${baseUrl}/books/bookmarks`, ({ request }) => {
+
+                    if (!request.headers.get('Authorization')) {
+                        return new HttpResponse(null, { status: 401 })
+                    }
+
+                    const books = Array.from({length: 3}, getRandomBookDto)
+                    return HttpResponse.json({books})
+                }),
+
                 http.post(`${baseUrl}/signup`, async ({request}) => {
                     const req = await request.json() as Auth
                     console.log(req)
@@ -56,12 +67,19 @@ export const Primary: Story = {
                 }),
 
                 http.post(`${baseUrl}/signin`, async ({request}) => {
-                    const req = await request.json() as Auth
-                    console.log(req)
-                    return new HttpResponse(null, { status: 200})
-                })
+                    const {username, password} = await request.json() as Auth
+                    if(username === 'kate'){
+                        const res: SigninResponseDto = {
+                            id: "some id",
+                            username: "kate",
+                            token: "some token"
+                        }
+                        return HttpResponse.json(res)
+                    } 
+                    return new HttpResponse(null, { status: 403})
+                }),
+                
             ]
         }
     }
 }
-

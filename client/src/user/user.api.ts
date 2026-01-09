@@ -24,13 +24,15 @@ export const userApi = api.injectEndpoints({
         saveBookmark: builder.mutation<void, string>({
             queryFn: () => {
                 throw new Error()
-            }
+            },
+            invalidatesTags: ['Bookmarks']
         }),
 
         removeBookmark: builder.mutation<void, string>({
             queryFn: () => {
                 throw new Error()
-            }
+            },
+            invalidatesTags: ['Bookmarks']
         })
 
     })

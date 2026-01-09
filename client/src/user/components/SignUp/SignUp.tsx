@@ -1,11 +1,24 @@
 import type { FC } from "react";
-import { AuthForm } from "../AuthForm/AuthForm";
+import { AuthForm, type Auth } from "../AuthForm/AuthForm";
 import { useSignupMutation } from "../../user.api";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 
-export const SignUp: FC = () => {
+export interface SignupProps {
+    toSignIn: () => void
+}
+
+export const SignUp: FC<SignupProps> = ({toSignIn}) => {
 
     const [signup, { error }] = useSignupMutation()
+
+    const handleSignup = async (data: Auth) => {
+        try {
+            await signup(data).unwrap()
+            toSignIn()
+        } catch (err) {
+            console.error('Signup failed', err)
+        }
+    }
 
     return (
         <div
@@ -13,7 +26,7 @@ export const SignUp: FC = () => {
             // data-theme='light' 
         >
             <h1 className="text-xl">Sign Up</h1>
-            <AuthForm onSubmit={signup} isSignin={false} />
+            <AuthForm onSubmit={handleSignup} isSignin={false} />
             <ErrorMessage code={(error as any)?.status} />
         </div>
     )

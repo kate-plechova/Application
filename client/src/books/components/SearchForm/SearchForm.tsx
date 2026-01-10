@@ -2,15 +2,27 @@ import type { FC } from "react";
 import { useForm } from 'react-hook-form'
 import { useLazySearchQuery } from "../../book.api";
 import { BookOpenIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
+import { LanguageIcon } from "@heroicons/react/24/outline";
 
 export interface SearchParams {
     title?: string
     author?: string
+    lang?: string
+    subject?: string
     publisher?: string
 }
 
 export interface SearchFormProps {
     search: (params: SearchParams) => void
+}
+
+const langs = ["", "eng", "fr", "ge"]
+
+const subjects: {[key: string]: string} = {
+    "": "",
+    "id1": "subject 1",
+    "id2": "subject 2",
+    "id3": "subject 3"
 }
 
 export const SearchForm: FC<SearchFormProps> = ({search}) => {
@@ -40,9 +52,10 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
             onSubmit={handleSubmit(onSubmit)}
             className="flex flex-col justify-between items-center p-4"
         >
-            <div className="flex flex-row justify-between items-center gap-4">
+            <div 
+                className="grid grid-cols-3 gap-4"
+            >
                 
-                {/* {errors.root && <div style={{ color: 'red' }}>{errors.root.message}</div>} */}
                 <label className="input">
                     <BookOpenIcon className="w-5 h-5" />
                     <input
@@ -64,6 +77,17 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
                 </label>
 
                 <button type='submit' className="btn"><MagnifyingGlassIcon className="w-5 h-5" /> Search</button>
+                 
+                <select defaultValue="" className="select" {...register("subject")}>
+                    {Object.keys(subjects).map(key => 
+                        <option key={key} value={key}>{subjects[key]}</option>
+                    )}
+                </select>
+
+                <select defaultValue={""} className="select" {...register("lang")}>
+                    {langs.map(lang => <option key={lang} value={lang}>{lang}</option>)}
+                </select>
+
             </div>
 
             <div>

@@ -22,11 +22,11 @@ export const BookPage: FC = () => {
 
     return (
         <div 
-            className="w-full h-full grow justify-center items-center"
+            className="w-full grow flex flex-col items-center overflow-y-auto"
             // data-theme='light'
         >
-            <SearchForm search={search}/>
-            <Books books={onBookmarks ? bookmarked : searchResult}/>
+            {!onBookmarks && <SearchForm search={search}/>}
+            <Books bookIds={onBookmarks ? bookmarked : searchResult}/>
         </div>
     )
 }

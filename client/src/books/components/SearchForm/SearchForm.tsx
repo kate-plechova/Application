@@ -44,7 +44,12 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
             return
         }
 
-        search(data)
+        const req: SearchParams = {}
+        if(data.title)
+            req.title = data.title
+        if(data.author)
+            req.author = data.author
+        search(req)
     }
 
     return (

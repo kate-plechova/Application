@@ -13,29 +13,68 @@ export const bookApi = api.injectEndpoints({
 
     endpoints: (builder) => ({
         
-        search: builder.query<Book[], SearchParams>({
-            query: ({title, author, publisher}) => ({
-                url: 'books',
-                params: { title, author, publisher },
+        getBook: builder.query<Book, string>({
+            query: (bookId) => ({
+                url: `/book/${bookId}`,
+                method: "GET"
             }),
-            transformResponse: (response: SearchResult): Book[] => {
-                return response.books.map(bookDtoToBook);
+            transformResponse: (response: BookDto): Book => {
+                return bookDtoToBook(response)
             },
+            providesTags: (result, error, bookId) => [{ type: 'Book', id: bookId }]
         }),
 
-        getBookmarked: builder.query<Book[], void>({
-            query: () => ({
-                url: 'books/bookmarks'
-            }),
-            transformResponse: (response: SearchResult): Book[] => {
-                return response.books.map(bookDtoToBook)
+        search: builder.query<string[], SearchParams>({
+            queryFn: async (arg, { dispatch }, _extraOptions, baseQuery) => {
+                const result = await baseQuery({
+                    url: '/books/search',
+                    params: {...arg}
+                })
+
+                if (result.error) return { error: result.error as any }
+
+                const data = result.data as SearchResult
+                const books = data.books.map(bookDtoToBook)
+
+                books.forEach((book) => {
+                    dispatch(bookApi.util.upsertQueryData('getBook', book.id, book))
+                })
+
+                return { data: books.map((book) => book.id) }
+            }
+        }),
+
+        getBookmarked: builder.query<string[], void>({
+            queryFn: async (argon2, { dispatch }, _extraOptions, baseQuery) => {
+                const result = await baseQuery({
+                    url: '/bookmarks'
+                })
+
+                if(result.error) return { error: result.error as any }
+
+                const data = result.data as SearchResult
+                const books = data.books.map(bookDtoToBook)
+
+                books.forEach(book => {
+                    dispatch(bookApi.util.upsertQueryData('getBook', book.id, book))
+                })
+
+                return { data: books.map(book => book.id)}
             },
+            // query: () => ({
+            //     url: '/bookmarks'
+            // }),
+            // transformResponse: (response: SearchResult): Book[] => {
+            //     return response.books.map(bookDtoToBook)
+            // },
             providesTags: ['Bookmarks']
         })
     })
 })
 
 export const {
+    useGetBookQuery,
+    useLazyGetBookQuery,
     useSearchQuery,
     useLazySearchQuery,
     useLazyGetBookmarkedQuery 

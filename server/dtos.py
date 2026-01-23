@@ -7,6 +7,7 @@ class Book(BaseModel):
     title: str = Field(default="", min_length=3)
     author: str = Field(default="", min_length=3)
     publisher: Optional[str] = Field(default="", min_length=1)
+    language: str = Field(default="", min_length=1)
     translations: List[str] = []
     publishDate: int = Field(default_factory=lambda: int(time.time() * 1000))
     rating: int = 0

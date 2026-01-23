@@ -1,10 +1,11 @@
 import mysql.connector
 from mysql.connector import pooling
+from dtos import BookDto
 import uuid
 from dotenv import load_dotenv
 import os
 
-load_dotenv()
+
 
 class DB:
     def __init__(self):
@@ -182,16 +183,17 @@ class DB:
                     )
                     is_bookmarked = cursor.fetchone() is not None
                 
-                dtos.append({
-                    "id": str(row['id']),
-                    "title": row['title'],
-                    "author": row['author_name'] or "Unknown",
-                    "publisher": row['publisher_name'] or "Unknown",
-                    "rating": row['rating'],
-                    "language": row['original_language'],
-                    "isBookmarked": is_bookmarked
-                })
-                
+                book = BookDto(
+                    id=str(row['id']), 
+                    title=row['title'],
+                    author=row['author_name'] or "Unknown",
+                    publisher=row['publisher_name'] or "Unknown",
+                    rating=int(row['rating']),
+                    translations=[],
+                    language=row['original_language'],
+                    isBookmarked=is_bookmarked
+                )
+                dtos.append(book.model_dump())
             return {"books": dtos}
         except Exception as e:
             print(f"Error searching books: {e}")

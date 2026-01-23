@@ -104,16 +104,28 @@ class DB:
                     )
                     is_bookmarked = cursor.fetchone() is not None
 
-            return {
-                "id": str(book['id']),
-                "title": book['title'],
-                "author": book['author'] or "Unknown",
-                "publisher": book['publisher'] or "Unknown",
-                "rating": book['rating'],
-                "pages": book['pages_avg'],
-                "language": book['original_language'],
-                "isBookmarked": is_bookmarked
-            }
+            dto = BookDto(
+                id=str(book['id']), 
+                title=book['title'],
+                author=book['author_name'] or "Unknown",
+                publisher=book['publisher_name'] or "Unknown",
+                rating=int(book['rating']),
+                translations=[],
+                language=book['original_language'],
+                isBookmarked=is_bookmarked,
+                publishDate=0
+            )
+            return dto
+            # return {
+            #     "id": str(book['id']),
+            #     "title": book['title'],
+            #     "author": book['author'] or "Unknown",
+            #     "publisher": book['publisher'] or "Unknown",
+            #     "rating": book['rating'],
+            #     "pages": book['pages_avg'],
+            #     "language": book['original_language'],
+            #     "isBookmarked": is_bookmarked
+            # }
         except Exception as e:
             print(f"Error getting book: {e}")
             return None
@@ -191,7 +203,8 @@ class DB:
                     rating=int(row['rating']),
                     translations=[],
                     language=row['original_language'],
-                    isBookmarked=is_bookmarked
+                    isBookmarked=is_bookmarked,
+                    publishDate=0
                 )
                 dtos.append(book.model_dump())
             return {"books": dtos}
@@ -224,15 +237,27 @@ class DB:
             
             books = []
             for row in results:
-                books.append({
-                    "id": str(row['id']),
-                    "title": row['title'],
-                    "author": row['author_name'] or "Unknown",
-                    "publisher": row['publisher_name'] or "Unknown",
-                    "rating": row['rating'],
-                    "language": row['original_language'],
-                    "isBookmarked": True
-                })
+                book = BookDto(
+                    id=str(row['id']), 
+                    title=row['title'],
+                    author=row['author_name'] or "Unknown",
+                    publisher=row['publisher_name'] or "Unknown",
+                    rating=int(row['rating']),
+                    translations=[],
+                    language=row['original_language'],
+                    isBookmarked=True,
+                    publishDate=0
+                )
+                books.append(book.model_dump())
+                # books.append({
+                #     "id": str(row['id']),
+                #     "title": row['title'],
+                #     "author": row['author_name'] or "Unknown",
+                #     "publisher": row['publisher_name'] or "Unknown",
+                #     "rating": row['rating'],
+                #     "language": row['original_language'],
+                #     "isBookmarked": True
+                # })
             return {"books": books}
         except Exception as e:
             print(f"Error getting bookmarks: {e}")

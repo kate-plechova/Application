@@ -1,14 +1,18 @@
 import mysql.connector
 from mysql.connector import pooling
 import uuid
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 class DB:
     def __init__(self):
         self.db_config = {
-            'user': 'root',
-            'password': 'rtyueherfnz12',
-            'host': 'localhost',
-            'database': 'new_schema',
+            'user': os.getenv("USER"),
+            'password': os.getenv("PASSWORD"),
+            'host': os.getenv("HOST"),
+            'database': os.getenv("DB"),
             'pool_name': 'mypool',
             'pool_size': 5
         }

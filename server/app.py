@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 from dummyDb import DummyDb
+from database import DB
 from pydantic import BaseModel, ValidationError
 from typing import Optional
 from dtos import BookDto, SearchDto, AuthDto
@@ -8,7 +9,8 @@ from dtos import BookDto, SearchDto, AuthDto
 
 app = Flask(__name__)
 CORS(app)
-db = DummyDb()
+# db = DummyDb()
+db = DB()
 
 def get_token():
     auth_header = request.headers.get("Authorization")

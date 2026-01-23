@@ -5,7 +5,7 @@ import uuid
 from dotenv import load_dotenv
 import os
 
-
+load_dotenv()
 
 class DB:
     def __init__(self):

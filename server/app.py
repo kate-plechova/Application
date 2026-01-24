@@ -49,9 +49,9 @@ def search():
 @app.route('/bookmarks')
 def bookmarks():
     token = get_token()
-    if not token or token not in db.users:
-        return "", 401
-    user_id = db.users[token]["id"]
+    # if not token or token not in db.users:
+    #     return "", 401
+    user_id = int(token) # db.users[token]["id"]
     books = db.get_bookmarks(user_id)
     return jsonify(books)
 

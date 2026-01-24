@@ -22,13 +22,22 @@ export class BookDto {
     @MinLength(1)
     publisher: string = ""
 
-    @IsNumber()
-    publishDate: number = Date.now()
+    // @IsNumber()
+    // publishDate: number = Date.now()
+
+    @IsString()
+    @IsOptional()
+    language?: string
 
     @IsNumber()
-    rating: number = 0
+    @IsOptional()
+    pages?: number
+
+    @IsNumber()
+    @IsOptional()
+    rating?: number
 
     @IsBoolean()
     @IsOptional()
-    isBookmarked?: boolean | null
+    isBookmarked?: boolean
 }

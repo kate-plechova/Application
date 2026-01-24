@@ -95,7 +95,7 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
                 </label>
 
                 <select defaultValue={""} className="select" {...register("lang")}>
-                    <option disabled={true}>Language</option>
+                    <option value={""}>Language</option>
                     {langs && Object.entries(langs).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
                 </select>
 

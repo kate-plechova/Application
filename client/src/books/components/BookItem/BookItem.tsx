@@ -12,9 +12,11 @@ export interface Book {
     author: string;
     translations: string[];
     publisher: string;
-    publishDate: string;
-    rating: number;
+    // publishDate: string;
+    rating: string;
     isBookmarked?: boolean
+    pages: string 
+    language: string
 }
 
 export interface BookItemProps {
@@ -84,7 +86,9 @@ export const BookItem: FC<BookItemProps /*Book*/> = ({
                 </div>
             </td>
             <td>{book.publisher}</td>
-            <td>{book.publishDate}</td>
+            <td>{book.language}</td>
+            <td>{book.pages}</td>
+            {/* <td>{book.publishDate}</td> */}
             <td>{book.rating}</td>
         </tr>
     )

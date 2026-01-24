@@ -14,7 +14,9 @@ export const BookTable: FC<PropsWithChildren> = ({children}) => {
                     <th>Author</th>
                     <th>Title</th>
                     <th>Publisher</th>
-                    <th>Publish Date</th> 
+                    {/* <th>Publish Date</th>  */}
+                    <th>Original Language</th>
+                    <th>Pages</th>
                     <th>Rating</th>
                 </tr>
             </thead>

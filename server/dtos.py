@@ -8,7 +8,7 @@ class Book(BaseModel):
     author: str = Field(default="", min_length=1) # Changed min_length to 1
     publisher: Optional[str] = Field(default="", min_length=1)
     language: Optional[str] = Field(default="", min_length=1)
-    pages: Optional[int] = Field(default = 0)
+    pages: Optional[float] = Field(default = 0)
     translations: List[str] = []
     # publishDate: int = Field(default_factory=lambda: int(time.time() * 1000))
     rating: Optional[float] = Field(default=None)

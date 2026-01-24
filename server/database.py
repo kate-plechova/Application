@@ -111,8 +111,9 @@ class DB:
                 publisher=book['publisher'] or "Unknown",
                 rating=int(book['rating']),
                 translations=[],
-                language=book['original_language'],
                 isBookmarked=is_bookmarked,
+                pages=book['pages_avg'],
+                language=book['original_language']
                 # publishDate=0
             )
             return dto.model_dump()
@@ -205,6 +206,7 @@ class DB:
                     language=row['original_language'],
                     isBookmarked=is_bookmarked,
                     # publishDate=0
+                    pages=row['pages_avg'],
                 )
                 dtos.append(book.model_dump())
             return {"books": dtos}
@@ -247,6 +249,7 @@ class DB:
                     language=row['original_language'],
                     isBookmarked=True,
                     # publishDate=0
+                    pages=row['pages_avg'],
                 )
                 books.append(book.model_dump())
                 # books.append({

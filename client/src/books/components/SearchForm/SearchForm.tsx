@@ -3,6 +3,7 @@ import { useForm } from 'react-hook-form'
 import { useLazySearchQuery } from "../../book.api";
 import { BookOpenIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
 import { LanguageIcon } from "@heroicons/react/24/outline";
+import { langs } from "../../../langs";
 
 export interface SearchParams {
     title?: string
@@ -16,7 +17,6 @@ export interface SearchFormProps {
     search: (params: SearchParams) => void
 }
 
-const langs = ["", "eng", "fr", "ge"]
 
 const subjects: {[key: string]: string} = {
     "": "",
@@ -90,7 +90,8 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
                 </select>
 
                 <select defaultValue={""} className="select" {...register("lang")}>
-                    {langs.map(lang => <option key={lang} value={lang}>{lang}</option>)}
+                    <option value="">--</option>
+                    {Object.entries(langs).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
                 </select>
 
             </div>

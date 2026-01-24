@@ -26,21 +26,27 @@ export const bookApi = api.injectEndpoints({
 
         search: builder.query<string[], SearchParams>({
             queryFn: async (arg, { dispatch }, _extraOptions, baseQuery) => {
-                const result = await baseQuery({
-                    url: '/books/search',
-                    params: {...arg}
-                })
+                try{
+                    const result = await baseQuery({
+                        url: '/books/search',
+                        params: {...arg}
+                    })
 
-                if (result.error) return { error: result.error as any }
+                    if (result.error) return { error: result.error as any }
 
-                const data = result.data as SearchResult
-                const books = data.books.map(bookDtoToBook)
+                    const data = result.data as SearchResult
+                    const books = data.books.map(bookDtoToBook)
 
-                books.forEach((book) => {
-                    dispatch(bookApi.util.upsertQueryData('getBook', book.id, book))
-                })
+                    books.forEach((book) => {
+                        dispatch(bookApi.util.upsertQueryData('getBook', book.id, book))
+                    })
 
-                return { data: books.map((book) => book.id) }
+                    return { data: books.map((book) => book.id) }
+                }
+                catch(error){
+                    console.error(error)
+                    return { error: error as any }
+                }
             }
         }),
 

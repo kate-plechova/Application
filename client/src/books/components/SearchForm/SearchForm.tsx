@@ -86,7 +86,6 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
                 <button type='submit' className="btn"><MagnifyingGlassIcon className="w-5 h-5" /> Search</button>
                  
                 <label className="input">
-                    <UserIcon className="w-5 h-5" />
                     <input
                         type='search'
                         placeholder="subject"

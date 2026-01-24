@@ -72,7 +72,7 @@ class DB:
         finally:
             conn.close()
 
-    def getBook(self, token, book_id):
+    def getBook(self, token, book_identifier):
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -84,7 +84,7 @@ class DB:
                 where_clause = "w.title = %s"
 
             query = f"""
-                SELECT w.id, w.title, w.rating, w.pages_avg, w.original_language,
+                SELECT w.id, w.title, w.rating, w.pages_avg, l.full_name as language,
                        GROUP_CONCAT(DISTINCT a.name SEPARATOR ', ') as author,
                        GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as publisher
                 FROM works w
@@ -92,8 +92,10 @@ class DB:
                 LEFT JOIN authors a ON wa.author_id = a.id
                 LEFT JOIN work_publishers wp ON w.id = wp.work_id
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
+                LEFT JOIN languages l ON w.original_language = l.code
                 WHERE {where_clause}
-                GROUP BY w.id
+                GROUP BY w.id, w.title, w.rating, w.pages_avg, l.full_name
+                LIMIT 1
             """
             cursor.execute(query, (book_identifier,))
             book = cursor.fetchone()
@@ -118,21 +120,11 @@ class DB:
                 publisher=book['publisher'] or "Unknown",
                 rating=int(book['rating'] or 0),
                 translations=[],
-                language=book['original_language'] or "Unknown",
+                language=book['language'] or "Unknown",
                 isBookmarked=is_bookmarked,
                 publishDate=0
             )
             return dto.model_dump()
-            # return {
-            #     "id": str(book['id']),
-            #     "title": book['title'],
-            #     "author": book['author'] or "Unknown",
-            #     "publisher": book['publisher'] or "Unknown",
-            #     "rating": book['rating'],
-            #     "pages": book['pages_avg'],
-            #     "language": book['original_language'],
-            #     "isBookmarked": is_bookmarked
-            # }
         except Exception as e:
             print(f"Error getting book: {e}")
             return None
@@ -145,7 +137,7 @@ class DB:
             cursor = conn.cursor(dictionary=True)
             
             sql = """
-                SELECT w.id, w.title, w.rating, w.pages_avg, w.original_language,
+                SELECT w.id, w.title, w.rating, w.pages_avg, l.full_name as language,
                        GROUP_CONCAT(DISTINCT a.name SEPARATOR ', ') as author_name,
                        GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as publisher_name
                 FROM works w
@@ -153,8 +145,7 @@ class DB:
                 LEFT JOIN authors a ON wa.author_id = a.id
                 LEFT JOIN work_publishers wp ON w.id = wp.work_id
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
-                LEFT JOIN work_languages wl ON w.id = wl.work_id
-                LEFT JOIN languages l ON wl.language_code = l.code
+                LEFT JOIN languages l ON w.original_language = l.code
                 LEFT JOIN work_subjects ws ON w.id = ws.work_id
                 LEFT JOIN subjects s ON ws.subject_id = s.id
             """
@@ -187,8 +178,8 @@ class DB:
                     params.append(f"%{word}%")
                 
             if language_id:
-                conditions.append("(w.original_language = %s OR l.code = %s)")
-                params.extend([language_id, language_id])
+                conditions.append("l.code = %s")
+                params.append(language_id)
                 
             if publisher:
                 pub_words = publisher.lower().split()
@@ -205,7 +196,7 @@ class DB:
             if conditions:
                 sql += " WHERE " + " AND ".join(conditions)
             
-            sql += " GROUP BY w.id, w.title, w.rating, w.pages_avg, w.original_language ORDER BY w.rating DESC LIMIT 100"
+            sql += " GROUP BY w.id, w.title, w.rating, w.pages_avg, l.full_name ORDER BY w.rating DESC LIMIT 100"
             
             print(f"DEBUG SEARCH SQL: {sql}")
             print(f"DEBUG SEARCH PARAMS: {params}")
@@ -234,7 +225,7 @@ class DB:
                     publisher=row['publisher_name'] or "Unknown",
                     rating=int(row['rating'] or 0),
                     translations=[],
-                    language=row['original_language'] or "Unknown",
+                    language=row['language'] or "Unknown",
                     isBookmarked=is_bookmarked,
                     publishDate=0
                 )
@@ -243,7 +234,6 @@ class DB:
             return {"books": dtos}
         except Exception as e:
             print(f"Error searching books: {e}")
-            traceback.print_exc()
             return {"books": []}
         finally:
             conn.close()
@@ -254,7 +244,7 @@ class DB:
             cursor = conn.cursor(dictionary=True)
             
             sql = """
-                SELECT w.id, w.title, w.rating, w.pages_avg, w.original_language,
+                SELECT w.id, w.title, w.rating, w.pages_avg, l.full_name as language,
                        GROUP_CONCAT(DISTINCT a.name SEPARATOR ', ') as author_name,
                        GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as publisher_name
                 FROM user_favorites uf
@@ -263,8 +253,9 @@ class DB:
                 LEFT JOIN authors a ON wa.author_id = a.id
                 LEFT JOIN work_publishers wp ON w.id = wp.work_id
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
+                LEFT JOIN languages l ON w.original_language = l.code
                 WHERE uf.user_id = %s
-                GROUP BY w.id
+                GROUP BY w.id, w.title, w.rating, w.pages_avg, l.full_name
             """
             cursor.execute(sql, (user_id,))
             results = cursor.fetchall()
@@ -278,7 +269,7 @@ class DB:
                     publisher=row['publisher_name'] or "Unknown",
                     rating=int(row['rating'] or 0),
                     translations=[],
-                    language=row['original_language'] or "Unknown",
+                    language=row['language'] or "Unknown",
                     isBookmarked=True,
                     publishDate=0
                 )

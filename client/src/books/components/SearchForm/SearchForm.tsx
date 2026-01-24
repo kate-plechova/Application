@@ -85,14 +85,18 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
 
                 <button type='submit' className="btn"><MagnifyingGlassIcon className="w-5 h-5" /> Search</button>
                  
-                <select defaultValue="" className="select" {...register("subject")}>
-                    {Object.keys(subjects).map(key => 
-                        <option key={key} value={key}>{subjects[key]}</option>
-                    )}
-                </select>
+                <label className="input">
+                    <UserIcon className="w-5 h-5" />
+                    <input
+                        type='search'
+                        placeholder="subject"
+                        className="grow"
+                        {...register('subject')}
+                    />
+                </label>
 
                 <select defaultValue={""} className="select" {...register("lang")}>
-                    <option value=""></option>
+                    <option disabled={true}>Language</option>
                     {langs && Object.entries(langs).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
                 </select>
 

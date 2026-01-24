@@ -345,3 +345,17 @@ class DB:
             return dto
         finally: 
             conn.close()
+
+    def get_subjects(self):
+        conn = self._get_connection() 
+        try:
+            sql = "SELECT id, name from subjects;"
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            dto = {}
+            for row in result:
+                dto[row[0]] = row[1]
+            return dto
+        finally: 
+            conn.close()

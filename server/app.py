@@ -95,3 +95,8 @@ def signin():
 def get_langs():
     langs = db.get_langs()
     return jsonify(langs)
+
+@app.route("/subjects")
+def get_subjects():
+    subjects = db.get_subjects()
+    return jsonify(subjects)

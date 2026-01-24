@@ -8,9 +8,9 @@ export const SigninButton: FC = () => {
     const [onSignin, setOnSignin] = useState(true)
     const dialogRef = useRef<HTMLDialogElement>(null)
 
-    const toSignUp = () => {
-        setOnSignin(false)
-    }
+    // const toSignUp = () => {
+    //     setOnSignin(false)
+    // }
 
     const toSignIn = () => {
         setOnSignin(true)

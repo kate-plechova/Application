@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { SignUp } from './SignUp';
-import { withRedux } from '../../../../.storybook/withRedux';
 
 const meta = {
   title: 'User/SignUp',
@@ -15,5 +14,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
-    decorators: [withRedux]
+  args: {
+    toSignIn: () => {}
+  },
 }

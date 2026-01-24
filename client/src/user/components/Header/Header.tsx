@@ -1,14 +1,13 @@
 import type { FC } from "react";
 import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectIsOnBookmarks, selectUserData } from "../../user.selectors";
-import { SignIn } from "../SignIn/SignIn";
-import { Sidebar } from "../Sidebar/Sidebar";
+// import { SignIn } from "../SignIn/SignIn";
+// import { Sidebar } from "../Sidebar/Sidebar";
 import { SigninButton } from "../SigninButton/SigninButton";
 import { ArrowLeftIcon, BookmarkIcon } from "@heroicons/react/24/outline";
 import { reset, showBookmarks } from "../../user.slice";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
 
-const email = "kate.plechova@gmail.com"
 
 export const Header: FC = () => {
 
@@ -16,13 +15,13 @@ export const Header: FC = () => {
     const userData = useAppSelector(selectUserData)
     const onBookmarks = useAppSelector(selectIsOnBookmarks)
 
-    const showModal = () => {
-        const dialog = document.getElementById("auth") as HTMLDialogElement | null
-        if(dialog){
-            dialog.showModal()
-        }
+    // const showModal = () => {
+    //     const dialog = document.getElementById("auth") as HTMLDialogElement | null
+    //     if(dialog){
+    //         dialog.showModal()
+    //     }
         
-    }
+    // }
 
     return (
         <header

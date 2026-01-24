@@ -9,7 +9,7 @@ class Book(BaseModel):
     publisher: Optional[str] = Field(default="", min_length=1)
     translations: List[str] = []
     publishDate: int = Field(default_factory=lambda: int(time.time() * 1000))
-    rating: int = 0
+    rating: float = 0
 
 class BookDto(Book):
     isBookmarked: Optional[bool] = None

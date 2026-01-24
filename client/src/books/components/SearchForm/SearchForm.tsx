@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import { useForm } from 'react-hook-form'
-import { useLazySearchQuery } from "../../book.api";
+import { useGetLanguagesQuery, useLazySearchQuery } from "../../book.api";
 import { BookOpenIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
 import { LanguageIcon } from "@heroicons/react/24/outline";
 import { langs } from "../../../langs";
@@ -28,6 +28,8 @@ const subjects: {[key: string]: string} = {
 export const SearchForm: FC<SearchFormProps> = ({search}) => {
 
     // const [search, ] = useLazySearchQuery()
+
+    const { data: langs } = useGetLanguagesQuery()
 
     const {
         register,
@@ -91,7 +93,7 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
 
                 <select defaultValue={""} className="select" {...register("lang")}>
                     <option value=""></option>
-                    {Object.entries(langs).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
+                    {langs && Object.entries(langs).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
                 </select>
 
             </div>

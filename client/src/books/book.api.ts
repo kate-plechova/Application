@@ -68,6 +68,12 @@ export const bookApi = api.injectEndpoints({
             //     return response.books.map(bookDtoToBook)
             // },
             providesTags: ['Bookmarks']
+        }),
+
+        getLanguages: builder.query<{[P: string]: string}, void>({
+            query: () => ({
+                url: '/languages'
+            })
         })
     })
 })
@@ -77,5 +83,7 @@ export const {
     useLazyGetBookQuery,
     useSearchQuery,
     useLazySearchQuery,
-    useLazyGetBookmarkedQuery 
+    useLazyGetBookmarkedQuery,
+
+    useGetLanguagesQuery
 } = bookApi

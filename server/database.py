@@ -113,7 +113,7 @@ class DB:
                 translations=[],
                 language=book['original_language'],
                 isBookmarked=is_bookmarked,
-                publishDate=0
+                # publishDate=0
             )
             return dto.model_dump()
             # return {
@@ -132,7 +132,7 @@ class DB:
         finally:
             conn.close()
 
-    def search(self, token, q, title, author, language, publisher):
+    def search(self, token, q, title, author, language_id, publisher):
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -165,9 +165,9 @@ class DB:
                 conditions.append("a.name LIKE %s")
                 params.append(f"%{author}%")
                 
-            if language:
+            if language_id:
                 conditions.append("(w.original_language = %s OR l.code = %s)")
-                params.extend([language, language])
+                params.extend([language_id, language_id])
                 
             if publisher:
                 conditions.append("p.name LIKE %s")
@@ -204,7 +204,7 @@ class DB:
                     translations=[],
                     language=row['original_language'],
                     isBookmarked=is_bookmarked,
-                    publishDate=0
+                    # publishDate=0
                 )
                 dtos.append(book.model_dump())
             return {"books": dtos}
@@ -246,7 +246,7 @@ class DB:
                     translations=[],
                     language=row['original_language'],
                     isBookmarked=True,
-                    publishDate=0
+                    # publishDate=0
                 )
                 books.append(book.model_dump())
                 # books.append({

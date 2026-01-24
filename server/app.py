@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from dummyDb import DummyDb
 from database import DB
@@ -7,16 +7,29 @@ from typing import Optional
 from dtos import BookDto, SearchDto, AuthDto
 
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="../client/dist/assets",
+    template_folder="../client/dist"
+)
 CORS(app)
 # db = DummyDb()
 db = DB()
+
 
 def get_token():
     auth_header = request.headers.get("Authorization")
     if not auth_header or not auth_header.startswith("Bearer "):
         return None
     return auth_header[7:]
+
+@app.route('/')
+def serve_index():
+    return send_from_directory(app.template_folder, 'index.html')
+
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory(app.static_folder, path)
 
 
 @app.route("/book/<book_id>")
@@ -100,3 +113,5 @@ def get_langs():
 def get_subjects():
     subjects = db.get_subjects()
     return jsonify(subjects)
+
+

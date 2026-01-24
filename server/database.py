@@ -331,3 +331,17 @@ class DB:
             return None
         finally:
             conn.close()
+
+    def get_langs(self):
+        conn = self._get_connection() 
+        try:
+            sql = "SELECT code, full_name from languages;"
+            cursor = conn.cursor()
+            cursor.execute(sql)
+            result = cursor.fetchall()
+            dto = {}
+            for row in result:
+                dto[row[0]] = row[1]
+            return dto
+        finally: 
+            conn.close()

@@ -90,3 +90,8 @@ def signin():
     res = db.signin(dto.username, dto.password)
     print(f'signin success {res}')
     return jsonify(res)
+
+@app.route("/languages")
+def get_langs():
+    langs = db.get_langs()
+    return jsonify(langs)

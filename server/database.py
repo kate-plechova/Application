@@ -2,16 +2,19 @@ import mysql.connector
 from mysql.connector import pooling
 from dtos import BookDto
 import uuid
-import re
-import traceback
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
 
 class DB:
     def __init__(self):
         self.db_config = {
-            'user': 'root',
-            'password': 'rtyueherfnz12',
-            'host': 'localhost',
-            'database': 'math_books',
+            'user': os.getenv("USER"),
+            'password': os.getenv("PASSWORD"),
+            'host': os.getenv("HOST"),
+            'database': os.getenv("DB"),
             'pool_name': 'mypool',
             'pool_size': 5
         }
@@ -69,7 +72,7 @@ class DB:
         finally:
             conn.close()
 
-    def getBook(self, token, book_identifier):
+    def getBook(self, token, book_id):
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -91,7 +94,6 @@ class DB:
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
                 WHERE {where_clause}
                 GROUP BY w.id
-                LIMIT 1
             """
             cursor.execute(query, (book_identifier,))
             book = cursor.fetchone()
@@ -121,14 +123,23 @@ class DB:
                 publishDate=0
             )
             return dto.model_dump()
+            # return {
+            #     "id": str(book['id']),
+            #     "title": book['title'],
+            #     "author": book['author'] or "Unknown",
+            #     "publisher": book['publisher'] or "Unknown",
+            #     "rating": book['rating'],
+            #     "pages": book['pages_avg'],
+            #     "language": book['original_language'],
+            #     "isBookmarked": is_bookmarked
+            # }
         except Exception as e:
             print(f"Error getting book: {e}")
-            traceback.print_exc()
             return None
         finally:
             conn.close()
 
-    def search(self, token, q, title, author, language, publisher):
+    def search(self, token, q, title, author, language_id, publisher, subject):
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -144,6 +155,8 @@ class DB:
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
                 LEFT JOIN work_languages wl ON w.id = wl.work_id
                 LEFT JOIN languages l ON wl.language_code = l.code
+                LEFT JOIN work_subjects ws ON w.id = ws.work_id
+                LEFT JOIN subjects s ON ws.subject_id = s.id
             """
             
             conditions = []
@@ -162,28 +175,31 @@ class DB:
                             params.extend([f"%{clean_word}%", f"%{clean_word}%"])
             
             if title:
-                # Split title into words for flexible search
                 title_words = title.lower().split()
                 for word in title_words:
                     conditions.append("w.title LIKE %s")
                     params.append(f"%{word}%")
                 
             if author:
-                # Split author into words
                 author_words = author.lower().split()
                 for word in author_words:
                     conditions.append("a.name LIKE %s")
                     params.append(f"%{word}%")
                 
-            if language:
+            if language_id:
                 conditions.append("(w.original_language = %s OR l.code = %s)")
-                params.extend([language, language])
+                params.extend([language_id, language_id])
                 
             if publisher:
-                # Split publisher into words
                 pub_words = publisher.lower().split()
                 for word in pub_words:
                     conditions.append("p.name LIKE %s")
+                    params.append(f"%{word}%")
+
+            if subject:
+                subj_words = subject.lower().split()
+                for word in subj_words:
+                    conditions.append("s.name LIKE %s")
                     params.append(f"%{word}%")
 
             if conditions:
@@ -270,7 +286,6 @@ class DB:
             return {"books": books}
         except Exception as e:
             print(f"Error getting bookmarks: {e}")
-            traceback.print_exc()
             return {"books": []}
         finally:
             conn.close()
@@ -284,7 +299,6 @@ class DB:
             return True
         except Exception as e:
             print(f"Error saving bookmark: {e}")
-            traceback.print_exc()
             return False
         finally:
             conn.close()
@@ -298,7 +312,6 @@ class DB:
             return True
         except Exception as e:
             print(f"Error removing bookmark: {e}")
-            traceback.print_exc()
             return False
         finally:
             conn.close()
@@ -316,7 +329,6 @@ class DB:
             return True
         except Exception as e:
             print(f"Error signup: {e}")
-            traceback.print_exc()
             return False
         finally:
             conn.close()
@@ -341,7 +353,6 @@ class DB:
             return None
         except Exception as e:
             print(f"Error signin: {e}")
-            traceback.print_exc()
             return None
         finally:
             conn.close()

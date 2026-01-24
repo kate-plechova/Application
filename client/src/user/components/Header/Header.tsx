@@ -55,10 +55,11 @@ export const Header: FC = () => {
             <div className="grow w-1" />
 
             <ul
-                className="flex flex-row justify-start items-center gap-4 text-slate-200" 
+                className="flex flex-row justify-start items-center gap-4 text-slate-800" 
             >
-                <li><a href={`mailto:${email}`}>{email}</a></li>
-                <li><a href="https://github.com/kate-plechova/Application/tree/main">Github</a></li>
+                {/* <li><a href={`mailto:${email}`}>{email}</a></li>
+                <li><a href="https://github.com/kate-plechova/Application/tree/main">Github</a></li> */}
+                <li>MathBook Search</li>
             </ul>
         </header>
     )

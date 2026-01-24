@@ -42,7 +42,7 @@ def search():
     print(f"search req {dto}")
     token = get_token()
     token = token if token else None
-    result = db.search(token, dto.q, dto.title, dto.author, dto.language, dto.publisher)
+    result = db.search(token, dto.q, dto.title, dto.author, dto.language, dto.publisher, dto.subject)
     print(f"result: {result}")
     return jsonify( result )
 

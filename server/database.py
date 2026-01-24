@@ -77,7 +77,7 @@ class DB:
             cursor = conn.cursor(dictionary=True)
             
             query = """
-                SELECT w.id, w.title, w.rating, w.pages_avg, w.original_language,
+                SELECT w.id, w.title, w.rating, w.pages_avg, l.full_name as language,
                        GROUP_CONCAT(DISTINCT a.name SEPARATOR ', ') as author,
                        GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as publisher
                 FROM works w
@@ -85,10 +85,11 @@ class DB:
                 LEFT JOIN authors a ON wa.author_id = a.id
                 LEFT JOIN work_publishers wp ON w.id = wp.work_id
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
+                LEFT JOIN languages l ON w.original_language = l.code
                 WHERE w.id = %s
                 GROUP BY w.id
             """
-            cursor.execute(query, (book_id,))
+            cursor.execute(query, (int(book_id),))
             book = cursor.fetchone()
             
             if not book:
@@ -133,13 +134,14 @@ class DB:
         finally:
             conn.close()
 
-    def search(self, token, q, title, author, language_id, publisher):
+
+    def search(self, token, q, title, author, language_id, publisher, subject):
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
             
             sql = """
-                SELECT w.id, w.title, w.rating, w.pages_avg, w.original_language,
+                SELECT w.id, w.title, w.rating, w.pages_avg, l.full_name as language,
                        GROUP_CONCAT(DISTINCT a.name SEPARATOR ', ') as author_name,
                        GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as publisher_name
                 FROM works w
@@ -147,37 +149,61 @@ class DB:
                 LEFT JOIN authors a ON wa.author_id = a.id
                 LEFT JOIN work_publishers wp ON w.id = wp.work_id
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
-                LEFT JOIN work_languages wl ON w.id = wl.work_id
-                LEFT JOIN languages l ON wl.language_code = l.code
+                LEFT JOIN languages l ON w.original_language = l.code
+                LEFT JOIN work_subjects ws ON w.id = ws.work_id
+                LEFT JOIN subjects s ON ws.subject_id = s.id
             """
             
             conditions = []
             params = []
 
             if q:
-                conditions.append("(w.title LIKE %s OR a.name LIKE %s)")
-                params.extend([f"%{q}%", f"%{q}%"])
+                keywords = q.lower().split() 
+                if not keywords:
+                    conditions.append("(w.title LIKE %s OR a.name LIKE %s)")
+                    params.extend([f"%{q}%", f"%{q}%"])
+                else:
+                    for word in keywords:
+                        clean_word = word.strip()
+                        if clean_word:
+                            conditions.append("(w.title LIKE %s OR a.name LIKE %s)")
+                            params.extend([f"%{clean_word}%", f"%{clean_word}%"])
             
             if title:
-                conditions.append("w.title LIKE %s")
-                params.append(f"%{title}%")
+                title_words = title.lower().split()
+                for word in title_words:
+                    conditions.append("w.title LIKE %s")
+                    params.append(f"%{word}%")
                 
             if author:
-                conditions.append("a.name LIKE %s")
-                params.append(f"%{author}%")
+                author_words = author.lower().split()
+                for word in author_words:
+                    conditions.append("a.name LIKE %s")
+                    params.append(f"%{word}%")
                 
             if language_id:
-                conditions.append("(w.original_language = %s OR l.code = %s)")
-                params.extend([language_id, language_id])
+                conditions.append("l.code = %s")
+                params.append(language_id)
                 
             if publisher:
-                conditions.append("p.name LIKE %s")
-                params.append(f"%{publisher}%")
+                pub_words = publisher.lower().split()
+                for word in pub_words:
+                    conditions.append("p.name LIKE %s")
+                    params.append(f"%{word}%")
+
+            if subject:
+                subj_words = subject.lower().split()
+                for word in subj_words:
+                    conditions.append("s.name LIKE %s")
+                    params.append(f"%{word}%")
 
             if conditions:
                 sql += " WHERE " + " AND ".join(conditions)
             
-            sql += " GROUP BY w.id ORDER BY w.rating DESC LIMIT 50"
+            sql += " GROUP BY w.id, w.title, w.rating, w.pages_avg, l.full_name ORDER BY w.rating DESC LIMIT 100"
+            
+            print(f"DEBUG SEARCH SQL: {sql}")
+            print(f"DEBUG SEARCH PARAMS: {params}")
             
             cursor.execute(sql, params)
             results = cursor.fetchall()
@@ -201,20 +227,104 @@ class DB:
                     title=row['title'],
                     author=row['author_name'] or "Unknown",
                     publisher=row['publisher_name'] or "Unknown",
-                    rating=float(row['rating']),
+                    rating=int(row['rating'] or 0),
                     translations=[],
-                    language=row['original_language'],
+                    language=row['language'] or "Unknown",
                     isBookmarked=is_bookmarked,
-                    # publishDate=0
-                    pages=row['pages_avg'],
+                    publishDate=0
                 )
                 dtos.append(book.model_dump())
+                
             return {"books": dtos}
         except Exception as e:
             print(f"Error searching books: {e}")
             return {"books": []}
         finally:
             conn.close()
+
+
+    # def search(self, token, q, title, author, language_id, publisher):
+    #     conn = self._get_connection()
+    #     try:
+    #         cursor = conn.cursor(dictionary=True)
+            
+    #         sql = """
+    #             SELECT w.id, w.title, w.rating, w.pages_avg, w.original_language,
+    #                    GROUP_CONCAT(DISTINCT a.name SEPARATOR ', ') as author_name,
+    #                    GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as publisher_name
+    #             FROM works w
+    #             LEFT JOIN work_authors wa ON w.id = wa.work_id
+    #             LEFT JOIN authors a ON wa.author_id = a.id
+    #             LEFT JOIN work_publishers wp ON w.id = wp.work_id
+    #             LEFT JOIN publishers p ON wp.publisher_id = p.id
+    #             LEFT JOIN work_languages wl ON w.id = wl.work_id
+    #             LEFT JOIN languages l ON wl.language_code = l.code
+    #         """
+            
+    #         conditions = []
+    #         params = []
+
+    #         if q:
+    #             conditions.append("(w.title LIKE %s OR a.name LIKE %s)")
+    #             params.extend([f"%{q}%", f"%{q}%"])
+            
+    #         if title:
+    #             conditions.append("w.title LIKE %s")
+    #             params.append(f"%{title}%")
+                
+    #         if author:
+    #             conditions.append("a.name LIKE %s")
+    #             params.append(f"%{author}%")
+                
+    #         if language_id:
+    #             conditions.append("(w.original_language = %s OR l.code = %s)")
+    #             params.extend([language_id, language_id])
+                
+    #         if publisher:
+    #             conditions.append("p.name LIKE %s")
+    #             params.append(f"%{publisher}%")
+
+    #         if conditions:
+    #             sql += " WHERE " + " AND ".join(conditions)
+            
+    #         sql += " GROUP BY w.id ORDER BY w.rating DESC LIMIT 50"
+            
+    #         cursor.execute(sql, params)
+    #         results = cursor.fetchall()
+            
+    #         user_id = None
+    #         if token:
+    #             user_id = self.get_user_id_by_token(token)
+                
+    #         dtos = []
+    #         for row in results:
+    #             is_bookmarked = False
+    #             if user_id:
+    #                 cursor.execute(
+    #                     "SELECT 1 FROM user_favorites WHERE user_id = %s AND work_id = %s",
+    #                     (user_id, row['id'])
+    #                 )
+    #                 is_bookmarked = cursor.fetchone() is not None
+                
+    #             book = BookDto(
+    #                 id=str(row['id']), 
+    #                 title=row['title'],
+    #                 author=row['author_name'] or "Unknown",
+    #                 publisher=row['publisher_name'] or "Unknown",
+    #                 rating=float(row['rating']),
+    #                 translations=[],
+    #                 language=row['original_language'],
+    #                 isBookmarked=is_bookmarked,
+    #                 # publishDate=0
+    #                 pages=row['pages_avg'],
+    #             )
+    #             dtos.append(book.model_dump())
+    #         return {"books": dtos}
+    #     except Exception as e:
+    #         print(f"Error searching books: {e}")
+    #         return {"books": []}
+    #     finally:
+    #         conn.close()
 
     def get_bookmarks(self, user_id):
         conn = self._get_connection()

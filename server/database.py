@@ -232,7 +232,8 @@ class DB:
                     translations=[],
                     language=row['language'] or "Unknown",
                     isBookmarked=is_bookmarked,
-                    publishDate=0
+                    pages=row['pages_avg'],
+                    # publishDate=0
                 )
                 dtos.append(book.model_dump())
                 

@@ -7,7 +7,7 @@ export const App: FC = () => {
 
   return (
     <div 
-      className='w-full h-full m-0 p-0 flex flex-col overflow-hidden'
+      className='w-full min-h-full m-0 p-0 flex flex-col overflow-hidden'
       data-theme="light"
     >
       <Header />

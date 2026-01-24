@@ -228,7 +228,7 @@ class DB:
                     title=row['title'],
                     author=row['author_name'] or "Unknown",
                     publisher=row['publisher_name'] or "Unknown",
-                    rating=int(row['rating'] or 0),
+                    rating=float(row['rating'] or 0),
                     translations=[],
                     language=row['language'] or "Unknown",
                     isBookmarked=is_bookmarked,

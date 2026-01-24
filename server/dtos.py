@@ -24,6 +24,7 @@ class SearchDto(BaseModel):
     author: Optional[str] = None
     publisher: Optional[str] = None
     language: Optional[str] = None
+    subject: Optional[str] = None
 
 class AuthDto(BaseModel):
     username: str

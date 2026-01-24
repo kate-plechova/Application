@@ -114,7 +114,7 @@ class DB:
                 translations=[],
                 isBookmarked=is_bookmarked,
                 pages=book['pages_avg'],
-                language=book['original_language']
+                language=book['language']
                 # publishDate=0
             )
             return dto.model_dump()

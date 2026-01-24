@@ -2,18 +2,16 @@ import mysql.connector
 from mysql.connector import pooling
 from dtos import BookDto
 import uuid
-from dotenv import load_dotenv
-import os
-
-load_dotenv()
+import re
+import traceback
 
 class DB:
     def __init__(self):
         self.db_config = {
-            'user': os.getenv("USER"),
-            'password': os.getenv("PASSWORD"),
-            'host': os.getenv("HOST"),
-            'database': os.getenv("DB"),
+            'user': 'root',
+            'password': 'rtyueherfnz12',
+            'host': 'localhost',
+            'database': 'math_books',
             'pool_name': 'mypool',
             'pool_size': 5
         }
@@ -71,12 +69,18 @@ class DB:
         finally:
             conn.close()
 
-    def getBook(self, token, book_id):
+    def getBook(self, token, book_identifier):
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
             
-            query = """
+            # Determine if we are searching by ID or Title
+            if str(book_identifier).isdigit():
+                where_clause = "w.id = %s"
+            else:
+                where_clause = "w.title = %s"
+
+            query = f"""
                 SELECT w.id, w.title, w.rating, w.pages_avg, w.original_language,
                        GROUP_CONCAT(DISTINCT a.name SEPARATOR ', ') as author,
                        GROUP_CONCAT(DISTINCT p.name SEPARATOR ', ') as publisher
@@ -85,10 +89,11 @@ class DB:
                 LEFT JOIN authors a ON wa.author_id = a.id
                 LEFT JOIN work_publishers wp ON w.id = wp.work_id
                 LEFT JOIN publishers p ON wp.publisher_id = p.id
-                WHERE w.id = %s
+                WHERE {where_clause}
                 GROUP BY w.id
+                LIMIT 1
             """
-            cursor.execute(query, (book_id,))
+            cursor.execute(query, (book_identifier,))
             book = cursor.fetchone()
             
             if not book:
@@ -100,34 +105,25 @@ class DB:
                 if user_id:
                     cursor.execute(
                         "SELECT 1 FROM user_favorites WHERE user_id = %s AND work_id = %s",
-                        (user_id, book_id)
+                        (user_id, book['id'])
                     )
                     is_bookmarked = cursor.fetchone() is not None
 
             dto = BookDto(
                 id=str(book['id']), 
                 title=book['title'],
-                author=book['author_name'] or "Unknown",
-                publisher=book['publisher_name'] or "Unknown",
-                rating=int(book['rating']),
+                author=book['author'] or "Unknown",
+                publisher=book['publisher'] or "Unknown",
+                rating=int(book['rating'] or 0),
                 translations=[],
-                language=book['original_language'],
+                language=book['original_language'] or "Unknown",
                 isBookmarked=is_bookmarked,
                 publishDate=0
             )
-            return dto
-            # return {
-            #     "id": str(book['id']),
-            #     "title": book['title'],
-            #     "author": book['author'] or "Unknown",
-            #     "publisher": book['publisher'] or "Unknown",
-            #     "rating": book['rating'],
-            #     "pages": book['pages_avg'],
-            #     "language": book['original_language'],
-            #     "isBookmarked": is_bookmarked
-            # }
+            return dto.model_dump()
         except Exception as e:
             print(f"Error getting book: {e}")
+            traceback.print_exc()
             return None
         finally:
             conn.close()
@@ -154,29 +150,49 @@ class DB:
             params = []
 
             if q:
-                conditions.append("(w.title LIKE %s OR a.name LIKE %s)")
-                params.extend([f"%{q}%", f"%{q}%"])
+                keywords = q.lower().split() 
+                if not keywords:
+                    conditions.append("(w.title LIKE %s OR a.name LIKE %s)")
+                    params.extend([f"%{q}%", f"%{q}%"])
+                else:
+                    for word in keywords:
+                        clean_word = word.strip()
+                        if clean_word:
+                            conditions.append("(w.title LIKE %s OR a.name LIKE %s)")
+                            params.extend([f"%{clean_word}%", f"%{clean_word}%"])
             
             if title:
-                conditions.append("w.title LIKE %s")
-                params.append(f"%{title}%")
+                # Split title into words for flexible search
+                title_words = title.lower().split()
+                for word in title_words:
+                    conditions.append("w.title LIKE %s")
+                    params.append(f"%{word}%")
                 
             if author:
-                conditions.append("a.name LIKE %s")
-                params.append(f"%{author}%")
+                # Split author into words
+                author_words = author.lower().split()
+                for word in author_words:
+                    conditions.append("a.name LIKE %s")
+                    params.append(f"%{word}%")
                 
             if language:
                 conditions.append("(w.original_language = %s OR l.code = %s)")
                 params.extend([language, language])
                 
             if publisher:
-                conditions.append("p.name LIKE %s")
-                params.append(f"%{publisher}%")
+                # Split publisher into words
+                pub_words = publisher.lower().split()
+                for word in pub_words:
+                    conditions.append("p.name LIKE %s")
+                    params.append(f"%{word}%")
 
             if conditions:
                 sql += " WHERE " + " AND ".join(conditions)
             
-            sql += " GROUP BY w.id ORDER BY w.rating DESC LIMIT 50"
+            sql += " GROUP BY w.id, w.title, w.rating, w.pages_avg, w.original_language ORDER BY w.rating DESC LIMIT 100"
+            
+            print(f"DEBUG SEARCH SQL: {sql}")
+            print(f"DEBUG SEARCH PARAMS: {params}")
             
             cursor.execute(sql, params)
             results = cursor.fetchall()
@@ -200,16 +216,18 @@ class DB:
                     title=row['title'],
                     author=row['author_name'] or "Unknown",
                     publisher=row['publisher_name'] or "Unknown",
-                    rating=int(row['rating']),
+                    rating=int(row['rating'] or 0),
                     translations=[],
-                    language=row['original_language'],
+                    language=row['original_language'] or "Unknown",
                     isBookmarked=is_bookmarked,
                     publishDate=0
                 )
                 dtos.append(book.model_dump())
+                
             return {"books": dtos}
         except Exception as e:
             print(f"Error searching books: {e}")
+            traceback.print_exc()
             return {"books": []}
         finally:
             conn.close()
@@ -242,25 +260,17 @@ class DB:
                     title=row['title'],
                     author=row['author_name'] or "Unknown",
                     publisher=row['publisher_name'] or "Unknown",
-                    rating=int(row['rating']),
+                    rating=int(row['rating'] or 0),
                     translations=[],
-                    language=row['original_language'],
+                    language=row['original_language'] or "Unknown",
                     isBookmarked=True,
                     publishDate=0
                 )
                 books.append(book.model_dump())
-                # books.append({
-                #     "id": str(row['id']),
-                #     "title": row['title'],
-                #     "author": row['author_name'] or "Unknown",
-                #     "publisher": row['publisher_name'] or "Unknown",
-                #     "rating": row['rating'],
-                #     "language": row['original_language'],
-                #     "isBookmarked": True
-                # })
             return {"books": books}
         except Exception as e:
             print(f"Error getting bookmarks: {e}")
+            traceback.print_exc()
             return {"books": []}
         finally:
             conn.close()
@@ -274,6 +284,7 @@ class DB:
             return True
         except Exception as e:
             print(f"Error saving bookmark: {e}")
+            traceback.print_exc()
             return False
         finally:
             conn.close()
@@ -287,6 +298,7 @@ class DB:
             return True
         except Exception as e:
             print(f"Error removing bookmark: {e}")
+            traceback.print_exc()
             return False
         finally:
             conn.close()
@@ -304,6 +316,7 @@ class DB:
             return True
         except Exception as e:
             print(f"Error signup: {e}")
+            traceback.print_exc()
             return False
         finally:
             conn.close()
@@ -328,6 +341,7 @@ class DB:
             return None
         except Exception as e:
             print(f"Error signin: {e}")
+            traceback.print_exc()
             return None
         finally:
             conn.close()

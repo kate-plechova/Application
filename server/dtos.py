@@ -3,9 +3,9 @@ from typing import Optional, List
 import time
 
 class Book(BaseModel):
-    id: str = Field(default="", min_length=1) # Changed min_length to 1
-    title: str = Field(default="", min_length=1) # Changed min_length to 1
-    author: str = Field(default="", min_length=1) # Changed min_length to 1
+    id: str = Field(default="", min_length=1)
+    title: str = Field(default="", min_length=1)
+    author: str = Field(default="", min_length=1)
     publisher: Optional[str] = Field(default="", min_length=1)
     translations: List[str] = []
     publishDate: int = Field(default_factory=lambda: int(time.time() * 1000))
@@ -22,9 +22,8 @@ class SearchDto(BaseModel):
     author: Optional[str] = None
     publisher: Optional[str] = None
     language: Optional[str] = None
+    subject: Optional[str] = None
 
 class AuthDto(BaseModel):
     username: str
-    password: str
-
     password: str

@@ -65,7 +65,11 @@ export const BookItem: FC<BookItemProps /*Book*/> = ({
             {userData && (
                 <td>
                     <BookmarkIcon 
-                        className={`${book.isBookmarked ? "text-yellow-300" : "text-slate-400"}`}
+                        style={{
+                            color: book.isBookmarked ? "yellow" : "black"
+                        }}
+                        // className={`${book.isBookmarked ? "text-yellow-300" : "text-slate-400"}`}
+                        className="size-6"
                         onClick={handleBookmarkStatusChange}
                     />
                 </td>

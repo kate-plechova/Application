@@ -90,7 +90,11 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
                 </select>
 
                 <select defaultValue={""} className="select" {...register("lang")}>
+<<<<<<< HEAD
                     <option value=""></option>
+=======
+                    <option value="">--</option>
+>>>>>>> 27ac68f8723c73360fd1f0c376a7049f0fdebd1b
                     {Object.entries(langs).map(([code, name]) => <option key={code} value={code}>{name}</option>)}
                 </select>
 

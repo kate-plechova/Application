@@ -72,6 +72,18 @@ class DB:
             conn.close()
 
     def getBook(self, token, book_id):
+        '''
+        Use to get a single book by id
+        If token is not None, then adds isBookmarked field to the dto
+
+        Args:
+            token (string, optional): user's token
+            book_id (string): book's id
+
+        Returns:
+            BookDto json object
+        
+        '''
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -136,6 +148,20 @@ class DB:
 
 
     def search(self, token, q, title, author, language_id, publisher, subject):
+        '''
+        Search feature
+        
+        Args:
+            token (string, optional): user's token
+            title (string, optional): book's title
+            author (string, optional): book's author
+            language_id (string, optional): language id
+            publisher (string, optional): publisher's name
+            subject (string, optional): subject name
+
+        Returns: 
+            Object { book: <list of BookDto> }
+        '''
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -329,6 +355,15 @@ class DB:
     #         conn.close()
 
     def get_bookmarks(self, user_id):
+        '''
+        Returns user's bookmarked books
+
+        Args:
+            user_id (string): user's id
+        
+        Returns:
+            Object { book: <list of BookDto> }
+        '''
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -381,6 +416,16 @@ class DB:
             conn.close()
 
     def save_bookmark(self, user_id, book_id):
+        '''
+        To store a record of bookmark
+        
+        Args:
+            user_id (string): user's id
+            book_id (string): book's id
+
+        Returns:
+            Boolean
+        '''
         conn = self._get_connection()
         try:
             cursor = conn.cursor()
@@ -394,6 +439,16 @@ class DB:
             conn.close()
 
     def remove_bookmark(self, user_id, book_id):
+        '''
+        To remove a record of bookmark
+        
+        Args:
+            user_id (string): user's id
+            book_id (string): book's id
+
+        Returns:
+            Boolean
+        '''
         conn = self._get_connection()
         try:
             cursor = conn.cursor()
@@ -407,6 +462,16 @@ class DB:
             conn.close()
 
     def signup(self, username, password):
+        '''
+        To create a new user
+
+        Args:
+            username (string): user's username
+            password (string): user's password
+
+        Returns:
+            Boolean
+        '''
         conn = self._get_connection()
         try:
             cursor = conn.cursor()
@@ -424,6 +489,16 @@ class DB:
             conn.close()
 
     def signin(self, username, password):
+        '''
+        To sign in, returns user's info for header payload
+
+        Args: 
+            username (string): user's username
+            password (string): user's password
+
+        Returns:
+            Object { id: <string>, username: <string>, token: <string> }
+        '''
         conn = self._get_connection()
         try:
             cursor = conn.cursor(dictionary=True)
@@ -448,6 +523,12 @@ class DB:
             conn.close()
 
     def get_langs(self):
+        '''
+        To get all available languages
+        
+        Returns: 
+            Object { code (string): full language name (string) }
+        '''
         conn = self._get_connection() 
         try:
             sql = "SELECT code, full_name from languages;"
@@ -462,6 +543,12 @@ class DB:
             conn.close()
 
     def get_subjects(self):
+        '''
+        To get all available subjects
+        
+        Returns: 
+            Object { id (int): subject name (string) }
+        '''
         conn = self._get_connection() 
         try:
             sql = "SELECT id, name from subjects;"

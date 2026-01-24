@@ -3,6 +3,9 @@ from typing import Optional, List
 import time
 
 class Book(BaseModel):
+    '''
+    Represents the book entity
+    '''
     id: str = Field(default="", min_length=1) # Changed min_length to 1
     title: str = Field(default="", min_length=1) # Changed min_length to 1
     author: str = Field(default="", min_length=1) # Changed min_length to 1
@@ -14,11 +17,19 @@ class Book(BaseModel):
     rating: Optional[float] = Field(default=None)
 
 class BookDto(Book):
+    '''
+    Represents the book's dto
+
+    Used for search queries
+    '''
     isBookmarked: Optional[bool] = None
 
 
 
 class SearchDto(BaseModel):
+    '''
+    Represents the search query dto
+    '''
     q: Optional[str] = None
     title: Optional[str] = None
     author: Optional[str] = None
@@ -27,7 +38,8 @@ class SearchDto(BaseModel):
     subject: Optional[str] = None
 
 class AuthDto(BaseModel):
+    '''
+    Represents the auth dto
+    '''
     username: str
-    password: str
-
     password: str

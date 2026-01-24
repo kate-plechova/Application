@@ -21,8 +21,8 @@ def get_token():
 
 @app.route("/book/<book_id>")
 def get_book(book_id):
-    if book_id not in db.books:
-        return "", 404
+    # if book_id not in db.books:
+    #     return "", 404
     token = get_token()
     dto = db.getBook(token, book_id)
     return jsonify(dto)
@@ -58,19 +58,13 @@ def bookmarks():
 @app.route("/bookmarks/<book_id>", methods=["POST"])
 def add_bookmark(book_id):
     token = get_token()
-    if not token or token not in db.users:
-        return "", 401
-    user_id = db.users[token]["id"]
-    res = db.save_bookmark(user_id, book_id)
+    res = db.save_bookmark(token, book_id)
     return "", 200 if res else 400
 
 @app.route("/bookmarks/<book_id>", methods=["DELETE"])
 def remove_bookmark(book_id):
     token = get_token()
-    if not token or token not in db.users:
-        return "", 401
-    user_id = db.users[token]["id"]
-    res = db.remove_bookmark(user_id, book_id)
+    res = db.remove_bookmark(token, book_id)
     return "", 200 if res else 400
 
 

@@ -96,7 +96,7 @@ class DB:
 
             is_bookmarked = False
             if token:
-                user_id = self.get_user_id_by_token(token)
+                user_id = int(token) # self.get_user_id_by_token(token)
                 if user_id:
                     cursor.execute(
                         "SELECT 1 FROM user_favorites WHERE user_id = %s AND work_id = %s",
@@ -107,15 +107,15 @@ class DB:
             dto = BookDto(
                 id=str(book['id']), 
                 title=book['title'],
-                author=book['author_name'] or "Unknown",
-                publisher=book['publisher_name'] or "Unknown",
+                author=book['author'] or "Unknown",
+                publisher=book['publisher'] or "Unknown",
                 rating=int(book['rating']),
                 translations=[],
                 language=book['original_language'],
                 isBookmarked=is_bookmarked,
                 publishDate=0
             )
-            return dto
+            return dto.model_dump()
             # return {
             #     "id": str(book['id']),
             #     "title": book['title'],
@@ -269,7 +269,7 @@ class DB:
         conn = self._get_connection()
         try:
             cursor = conn.cursor()
-            cursor.execute("INSERT IGNORE INTO user_favorites (user_id, work_id) VALUES (%s, %s)", (user_id, book_id))
+            cursor.execute("INSERT INTO user_favorites (user_id, work_id) VALUES (%s, %s)", (int(user_id), int(book_id)))
             conn.commit()
             return True
         except Exception as e:
@@ -282,7 +282,7 @@ class DB:
         conn = self._get_connection()
         try:
             cursor = conn.cursor()
-            cursor.execute("DELETE FROM user_favorites WHERE user_id = %s AND work_id = %s", (user_id, book_id))
+            cursor.execute("DELETE FROM user_favorites WHERE user_id = %s AND work_id = %s", (int(user_id), int(book_id)))
             conn.commit()
             return True
         except Exception as e:
@@ -316,9 +316,9 @@ class DB:
             user = cursor.fetchone()
             
             if user:
-                token = str(uuid.uuid4())
-                cursor.execute("INSERT INTO sessions (token, user_id) VALUES (%s, %s)", (token, user['id']))
-                conn.commit()
+                token = str(user['id'])# str(uuid.uuid4())
+                # cursor.execute("INSERT INTO sessions (token, user_id) VALUES (%s, %s)", (token, user['id']))
+                # conn.commit()
                 
                 return {
                     "id": str(user["id"]),

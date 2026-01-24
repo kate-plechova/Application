@@ -210,7 +210,8 @@ class DB:
             
             user_id = None
             if token:
-                user_id = self.get_user_id_by_token(token)
+                # user_id = self.get_user_id_by_token(token)
+                user_id = int(token)
                 
             dtos = []
             for row in results:

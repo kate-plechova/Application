@@ -19,7 +19,9 @@ export const StatPage: FC = () => {
         return <div>{JSON.stringify(error)}</div>
     }
     return (
-        <div>
+        <div
+            data-theme="light" 
+        >
             <h2>General stats</h2>
             <GeneralStats {...data.general_stats} /> 
 

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNotEmptyObject, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
+import { IsArray, IsNotEmpty, IsNotEmptyObject, IsNumber, IsOptional, IsString, MinLength } from "class-validator";
 
 export class GeneralStatsDto {
 
@@ -65,12 +65,19 @@ export class StatisticsDto {
         average_rating: 0
     }
 
+    @IsArray()
     @IsNotEmpty()
     top_subjects_by_books: SubjectStatDto[] = []
 
+    @IsArray()
     @IsNotEmpty()
     top_subjects_by_rating: SubjectRatingDto[] = []
 
+    @IsArray()
     @IsNotEmpty()
     language_stats: LanguageStatDto[] = []
+
+    @IsArray()
+    @IsNotEmpty()
+    top_works_by_favorites: FavoriteWorkDto[] = []
 }

@@ -3,6 +3,7 @@ import { useGetStatsQuery } from "./stats.api";
 import { GeneralStats } from "./components/GeneralStats";
 import { SubjectStats } from "./components/SubjectStats";
 import { LangaugeStats } from "./components/LanguageStats";
+import { FavoriteWorks } from "./components/FavoriteWorks";
 
 
 
@@ -26,10 +27,11 @@ export const StatPage: FC = () => {
 
             <LangaugeStats data={data.language_stats} />
                         
+            <FavoriteWorks data={data.top_works_by_favorites} />
 
-            <p>
+            {/* <p>
                 {JSON.stringify(data)}
-            </p>
+            </p> */}
         </div>
     )
 }

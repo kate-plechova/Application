@@ -24,3 +24,7 @@ export const statsApi = api.injectEndpoints({
 
     })
 })
+
+export const {
+    useGetStatsQuery
+} = statsApi

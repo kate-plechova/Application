@@ -2,6 +2,7 @@ import { useEffect, useState, type FC } from "react";
 import { useGetStatsQuery } from "./stats.api";
 import { GeneralStats } from "./components/GeneralStats";
 import { SubjectStats } from "./components/SubjectStats";
+import { LangaugeStats } from "./components/LanguageStats";
 
 
 
@@ -23,7 +24,8 @@ export const StatPage: FC = () => {
 
             <SubjectStats data={data.top_subjects_by_books}/>
 
-            
+            <LangaugeStats data={data.language_stats} />
+                        
 
             <p>
                 {JSON.stringify(data)}

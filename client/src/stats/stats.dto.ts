@@ -35,7 +35,7 @@ export class SubjectRatingDto{
     average_rating: number = 0.0
 }
 
-class LanguageStatDto {
+export class LanguageStatDto {
     @IsString()
     @IsNotEmpty()
     language_name: string = ""

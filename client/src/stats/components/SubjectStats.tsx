@@ -8,26 +8,61 @@ export interface SubjectStatsProps {
 
 export const SubjectStats: FC<SubjectStatsProps> = ({data}) => {
 
-    const chartData = useMemo(() => [
+    const chartData = useMemo(() => {
+        const major = data.slice(0, 10)
+        const minorPercentage = data.slice(10).reduce((acc, item) => acc + item.total_books, 0)
+        return [
         {
-            data: 
-                data.map((item, i) => ({
+            data: [
+                ...major.map((item, i) => ({
                     id: i,
                     value: item.book_count,
                     label: item.name
-                }))
+                })),
+                {
+                    id: major.length,
+                    value: minorPercentage,
+                    label: "Other"
+                }
+            ]
             
         }
-    ], [data])
+            ]
+        }, [data])
 
     return (
         <div>
             <h2>Subject Statistics</h2>
-            <PieChart
-                series={chartData} 
-                width={200}
-                height={200}
-            />
+            <div className="flex flex-row justify-between items-center">
+
+                <div className="overflow-y-auto h-96">
+                    <table className="table table-pin-rows">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Total books</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            {data.map((item, i) => (
+                                <tr key={i}>
+                                    <td>{item.name}</td>
+                                    <td>{item.book_count}</td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div className="flex justify-center items-center">
+                    <PieChart
+                        series={chartData} 
+                        width={200}
+                        height={200}
+                    />
+                </div>
+            </div>
         </div>
     )
 }

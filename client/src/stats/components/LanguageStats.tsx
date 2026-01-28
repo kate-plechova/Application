@@ -20,7 +20,7 @@ export const LangaugeStats: FC<LanguageStatsProps> = ({data}) => {
                         id: i,
                         value: item.total_books,
                         label: item.language_name
-                    })).slice(0, 10),
+                    })),
                     {
                         id: major.length,
                         value: minorPercentage,

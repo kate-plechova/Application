@@ -1,14 +1,20 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, send_from_directory
 from flask_cors import CORS
 from database import DB
 from pydantic import BaseModel, ValidationError
 from typing import Optional
-from dtos import BookDto, SearchDto, AuthDto
+from dtos import BookDto, SearchDto, AuthDto, StatisticsDto
 
 
-app = Flask(__name__)
+app = Flask(
+    __name__,
+    static_folder="../client/dist/assets",
+    template_folder="../client/dist"
+)
 CORS(app)
+# db = DummyDb()
 db = DB()
+
 
 def get_token():
     auth_header = request.headers.get("Authorization")
@@ -16,18 +22,21 @@ def get_token():
         return None
     return auth_header[7:]
 
-def get_user_id(token):
-    if not token:
-        return None
-    return db.get_user_id_by_token(token)
+@app.route('/')
+def serve_index():
+    return send_from_directory(app.template_folder, 'index.html')
+
+@app.route('/static/<path:path>')
+def serve_static(path):
+    return send_from_directory(app.static_folder, path)
 
 
 @app.route("/book/<book_id>")
 def get_book(book_id):
+    # if book_id not in db.books:
+    #     return "", 404
     token = get_token()
     dto = db.getBook(token, book_id)
-    if not dto:
-        return "", 404
     return jsonify(dto)
 
 
@@ -35,6 +44,7 @@ def get_book(book_id):
 def search():
     """
     extract query parameters
+    use dummy function, but assume it will be replaced by real one lately
     """
     try:
         dto = SearchDto(**request.args)
@@ -43,7 +53,7 @@ def search():
 
     print(f"search req {dto}")
     token = get_token()
-    # Pass subject to search
+    token = token if token else None
     result = db.search(token, dto.q, dto.title, dto.author, dto.language, dto.publisher, dto.subject)
     print(f"result: {result}")
     return jsonify( result )
@@ -51,31 +61,22 @@ def search():
 @app.route('/bookmarks')
 def bookmarks():
     token = get_token()
-    user_id = get_user_id(token)
-    if not user_id:
-        return "", 401
-    
+    # if not token or token not in db.users:
+    #     return "", 401
+    user_id = int(token) # db.users[token]["id"]
     books = db.get_bookmarks(user_id)
     return jsonify(books)
 
 @app.route("/bookmarks/<book_id>", methods=["POST"])
 def add_bookmark(book_id):
     token = get_token()
-    user_id = get_user_id(token)
-    if not user_id:
-        return "", 401
-    
-    res = db.save_bookmark(user_id, book_id)
+    res = db.save_bookmark(token, book_id)
     return "", 200 if res else 400
 
 @app.route("/bookmarks/<book_id>", methods=["DELETE"])
 def remove_bookmark(book_id):
     token = get_token()
-    user_id = get_user_id(token)
-    if not user_id:
-        return "", 401
-    
-    res = db.remove_bookmark(user_id, book_id)
+    res = db.remove_bookmark(token, book_id)
     return "", 200 if res else 400
 
 
@@ -87,12 +88,9 @@ def signup():
         print(f'signup failure {dto}')
         return jsonify(e.errors()), 400
 
-    res = db.signup(dto.username, dto.password)
-    if res:
-        print(f'signup success {dto}')
-        return "", 200
-    else:
-        return "Username already exists", 400
+    db.signup(dto.username, dto.password)
+    print(f'signup success {dto}')
+    return "", 200
 
 
 @app.route("/signin", methods=["POST"])
@@ -102,11 +100,22 @@ def signin():
     except ValidationError as e:
         return jsonify(e.errors()), 400
     res = db.signin(dto.username, dto.password)
-    if res:
-        print(f'signin success {res}')
-        return jsonify(res)
-    else:
-        return "Invalid credentials", 401
+    print(f'signin success {res}')
+    return jsonify(res)
 
-if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+@app.route("/languages")
+def get_langs():
+    langs = db.get_langs()
+    return jsonify(langs)
+
+@app.route("/subjects")
+def get_subjects():
+    subjects = db.get_subjects()
+    return jsonify(subjects)
+
+@app.route("/statistics")
+def get_statistics():
+    stats_dto = db.get_statistics()
+    if stats_dto:
+        return jsonify(stats_dto.model_dump())
+    return jsonify({"error": "Could not retrieve statistics"}), 500

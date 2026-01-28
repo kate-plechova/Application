@@ -1,6 +1,7 @@
 import { useEffect, useState, type FC } from "react";
 import { useGetStatsQuery } from "./stats.api";
 import { GeneralStats } from "./components/GeneralStats";
+import { SubjectStats } from "./components/SubjectStats";
 
 
 
@@ -19,6 +20,10 @@ export const StatPage: FC = () => {
         <div>
             <h2>General stats</h2>
             <GeneralStats {...data.general_stats} /> 
+
+            <SubjectStats data={data.top_subjects_by_books}/>
+
+            
 
             <p>
                 {JSON.stringify(data)}

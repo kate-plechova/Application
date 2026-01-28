@@ -1,5 +1,6 @@
 import { useEffect, useState, type FC } from "react";
 import { useGetStatsQuery } from "./stats.api";
+import { GeneralStats } from "./components/GeneralStats";
 
 
 
@@ -11,8 +12,17 @@ export const StatPage: FC = () => {
         return <div>Loading...</div>
     }
 
-    if(isError){
+    if(isError || !data){
         return <div>{JSON.stringify(error)}</div>
     }
-    return <div>{JSON.stringify(data)}</div>
+    return (
+        <div>
+            <h2>General stats</h2>
+            <GeneralStats {...data.general_stats} /> 
+
+            <p>
+                {JSON.stringify(data)}
+            </p>
+        </div>
+    )
 }

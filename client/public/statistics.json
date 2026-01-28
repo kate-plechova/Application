@@ -1,0 +1,1262 @@
+{
+  "general_stats": {
+    "average_rating": 3.16,
+    "total_authors": 147915,
+    "total_books": 249934,
+    "total_languages": 179,
+    "total_publishers": 0,
+    "total_subjects": 180280
+  },
+  "language_stats": [
+    {
+      "language_name": "English",
+      "total_authors": 0,
+      "total_books": 162611,
+      "translated_books": 1938,
+      "translation_percentage": 1.19
+    },
+    {
+      "language_name": "French",
+      "total_authors": 0,
+      "total_books": 10277,
+      "translated_books": 347,
+      "translation_percentage": 3.38
+    },
+    {
+      "language_name": "German",
+      "total_authors": 0,
+      "total_books": 9428,
+      "translated_books": 352,
+      "translation_percentage": 3.73
+    },
+    {
+      "language_name": "Spanish",
+      "total_authors": 0,
+      "total_books": 9415,
+      "translated_books": 120,
+      "translation_percentage": 1.27
+    },
+    {
+      "language_name": "Russian",
+      "total_authors": 0,
+      "total_books": 7638,
+      "translated_books": 121,
+      "translation_percentage": 1.58
+    },
+    {
+      "language_name": "Japanese",
+      "total_authors": 0,
+      "total_books": 3869,
+      "translated_books": 93,
+      "translation_percentage": 2.4
+    },
+    {
+      "language_name": "Chinese",
+      "total_authors": 0,
+      "total_books": 3287,
+      "translated_books": 74,
+      "translation_percentage": 2.25
+    },
+    {
+      "language_name": "Italian",
+      "total_authors": 0,
+      "total_books": 2973,
+      "translated_books": 77,
+      "translation_percentage": 2.59
+    },
+    {
+      "language_name": "Hebrew",
+      "total_authors": 0,
+      "total_books": 2701,
+      "translated_books": 130,
+      "translation_percentage": 4.81
+    },
+    {
+      "language_name": "Portuguese",
+      "total_authors": 0,
+      "total_books": 2439,
+      "translated_books": 38,
+      "translation_percentage": 1.56
+    },
+    {
+      "language_name": "Latin",
+      "total_authors": 0,
+      "total_books": 1710,
+      "translated_books": 126,
+      "translation_percentage": 7.37
+    },
+    {
+      "language_name": "Arabic",
+      "total_authors": 0,
+      "total_books": 1641,
+      "translated_books": 82,
+      "translation_percentage": 5.0
+    },
+    {
+      "language_name": "Hungarian",
+      "total_authors": 0,
+      "total_books": 1160,
+      "translated_books": 17,
+      "translation_percentage": 1.47
+    },
+    {
+      "language_name": "Indonesian",
+      "total_authors": 0,
+      "total_books": 1143,
+      "translated_books": 35,
+      "translation_percentage": 3.06
+    },
+    {
+      "language_name": "Polish",
+      "total_authors": 0,
+      "total_books": 1017,
+      "translated_books": 18,
+      "translation_percentage": 1.77
+    },
+    {
+      "language_name": "Dutch",
+      "total_authors": 0,
+      "total_books": 957,
+      "translated_books": 25,
+      "translation_percentage": 2.61
+    },
+    {
+      "language_name": "Korean",
+      "total_authors": 0,
+      "total_books": 817,
+      "translated_books": 30,
+      "translation_percentage": 3.67
+    },
+    {
+      "language_name": "Persian",
+      "total_authors": 0,
+      "total_books": 633,
+      "translated_books": 21,
+      "translation_percentage": 3.32
+    },
+    {
+      "language_name": "Swedish",
+      "total_authors": 0,
+      "total_books": 593,
+      "translated_books": 17,
+      "translation_percentage": 2.87
+    },
+    {
+      "language_name": "Thai",
+      "total_authors": 0,
+      "total_books": 533,
+      "translated_books": 66,
+      "translation_percentage": 12.38
+    },
+    {
+      "language_name": "Turkish",
+      "total_authors": 0,
+      "total_books": 506,
+      "translated_books": 82,
+      "translation_percentage": 16.21
+    },
+    {
+      "language_name": "Danish",
+      "total_authors": 0,
+      "total_books": 497,
+      "translated_books": 13,
+      "translation_percentage": 2.62
+    },
+    {
+      "language_name": "Finnish",
+      "total_authors": 0,
+      "total_books": 409,
+      "translated_books": 9,
+      "translation_percentage": 2.2
+    },
+    {
+      "language_name": "Norwegian",
+      "total_authors": 0,
+      "total_books": 409,
+      "translated_books": 14,
+      "translation_percentage": 3.42
+    },
+    {
+      "language_name": "Unknown language",
+      "total_authors": 0,
+      "total_books": 388,
+      "translated_books": 112,
+      "translation_percentage": 28.87
+    },
+    {
+      "language_name": "Ukrainian",
+      "total_authors": 0,
+      "total_books": 380,
+      "translated_books": 11,
+      "translation_percentage": 2.89
+    },
+    {
+      "language_name": "Croatian",
+      "total_authors": 0,
+      "total_books": 364,
+      "translated_books": 7,
+      "translation_percentage": 1.92
+    },
+    {
+      "language_name": "Mandarin chinese",
+      "total_authors": 0,
+      "total_books": 323,
+      "translated_books": 88,
+      "translation_percentage": 27.24
+    },
+    {
+      "language_name": "Vietnamese",
+      "total_authors": 0,
+      "total_books": 321,
+      "translated_books": 37,
+      "translation_percentage": 11.53
+    },
+    {
+      "language_name": "Czech",
+      "total_authors": 0,
+      "total_books": 305,
+      "translated_books": 8,
+      "translation_percentage": 2.62
+    },
+    {
+      "language_name": "Romanian",
+      "total_authors": 0,
+      "total_books": 296,
+      "translated_books": 4,
+      "translation_percentage": 1.35
+    },
+    {
+      "language_name": "Bulgarian",
+      "total_authors": 0,
+      "total_books": 260,
+      "translated_books": 6,
+      "translation_percentage": 2.31
+    },
+    {
+      "language_name": "Afrikaans",
+      "total_authors": 0,
+      "total_books": 248,
+      "translated_books": 32,
+      "translation_percentage": 12.9
+    },
+    {
+      "language_name": "Hindi",
+      "total_authors": 0,
+      "total_books": 219,
+      "translated_books": 2,
+      "translation_percentage": 0.91
+    },
+    {
+      "language_name": "Greek",
+      "total_authors": 0,
+      "total_books": 207,
+      "translated_books": 23,
+      "translation_percentage": 11.11
+    },
+    {
+      "language_name": "Catalan",
+      "total_authors": 0,
+      "total_books": 166,
+      "translated_books": 4,
+      "translation_percentage": 2.41
+    },
+    {
+      "language_name": "Serbian",
+      "total_authors": 0,
+      "total_books": 162,
+      "translated_books": 2,
+      "translation_percentage": 1.23
+    },
+    {
+      "language_name": "Multiple languages",
+      "total_authors": 0,
+      "total_books": 131,
+      "translated_books": 40,
+      "translation_percentage": 30.53
+    },
+    {
+      "language_name": "Lithuanian",
+      "total_authors": 0,
+      "total_books": 105,
+      "translated_books": 4,
+      "translation_percentage": 3.81
+    },
+    {
+      "language_name": "Slovenian",
+      "total_authors": 0,
+      "total_books": 102,
+      "translated_books": 1,
+      "translation_percentage": 0.98
+    },
+    {
+      "language_name": "Slovak",
+      "total_authors": 0,
+      "total_books": 81,
+      "translated_books": 6,
+      "translation_percentage": 7.41
+    },
+    {
+      "language_name": "Estonian",
+      "total_authors": 0,
+      "total_books": 79,
+      "translated_books": 6,
+      "translation_percentage": 7.59
+    },
+    {
+      "language_name": "Malay",
+      "total_authors": 0,
+      "total_books": 74,
+      "translated_books": 38,
+      "translation_percentage": 51.35
+    },
+    {
+      "language_name": "Welsh",
+      "total_authors": 0,
+      "total_books": 67,
+      "translated_books": 3,
+      "translation_percentage": 4.48
+    },
+    {
+      "language_name": "Mongolian",
+      "total_authors": 0,
+      "total_books": 66,
+      "translated_books": 1,
+      "translation_percentage": 1.52
+    },
+    {
+      "language_name": "Armenian",
+      "total_authors": 0,
+      "total_books": 65,
+      "translated_books": 2,
+      "translation_percentage": 3.08
+    },
+    {
+      "language_name": "Bangla",
+      "total_authors": 0,
+      "total_books": 64,
+      "translated_books": 2,
+      "translation_percentage": 3.12
+    },
+    {
+      "language_name": "Sanskrit",
+      "total_authors": 0,
+      "total_books": 62,
+      "translated_books": 5,
+      "translation_percentage": 8.06
+    },
+    {
+      "language_name": "Latvian",
+      "total_authors": 0,
+      "total_books": 52,
+      "translated_books": 3,
+      "translation_percentage": 5.77
+    },
+    {
+      "language_name": "Macedonian",
+      "total_authors": 0,
+      "total_books": 50,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Ancient greek",
+      "total_authors": 0,
+      "total_books": 44,
+      "translated_books": 14,
+      "translation_percentage": 31.82
+    },
+    {
+      "language_name": "Nepali",
+      "total_authors": 0,
+      "total_books": 42,
+      "translated_books": 1,
+      "translation_percentage": 2.38
+    },
+    {
+      "language_name": "Ottoman turkish",
+      "total_authors": 0,
+      "total_books": 39,
+      "translated_books": 4,
+      "translation_percentage": 10.26
+    },
+    {
+      "language_name": "Azerbaijani",
+      "total_authors": 0,
+      "total_books": 36,
+      "translated_books": 6,
+      "translation_percentage": 16.67
+    },
+    {
+      "language_name": "Albanian",
+      "total_authors": 0,
+      "total_books": 35,
+      "translated_books": 2,
+      "translation_percentage": 5.71
+    },
+    {
+      "language_name": "Yiddish",
+      "total_authors": 0,
+      "total_books": 31,
+      "translated_books": 1,
+      "translation_percentage": 3.23
+    },
+    {
+      "language_name": "Icelandic",
+      "total_authors": 0,
+      "total_books": 28,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Marathi",
+      "total_authors": 0,
+      "total_books": 27,
+      "translated_books": 1,
+      "translation_percentage": 3.7
+    },
+    {
+      "language_name": "Belarusian",
+      "total_authors": 0,
+      "total_books": 25,
+      "translated_books": 3,
+      "translation_percentage": 12.0
+    },
+    {
+      "language_name": "Urdu",
+      "total_authors": 0,
+      "total_books": 24,
+      "translated_books": 2,
+      "translation_percentage": 8.33
+    },
+    {
+      "language_name": "Burmese",
+      "total_authors": 0,
+      "total_books": 22,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Georgian",
+      "total_authors": 0,
+      "total_books": 22,
+      "translated_books": 1,
+      "translation_percentage": 4.55
+    },
+    {
+      "language_name": "Basque",
+      "total_authors": 0,
+      "total_books": 20,
+      "translated_books": 4,
+      "translation_percentage": 20.0
+    },
+    {
+      "language_name": "Tajik",
+      "total_authors": 0,
+      "total_books": 18,
+      "translated_books": 7,
+      "translation_percentage": 38.89
+    },
+    {
+      "language_name": "Galician",
+      "total_authors": 0,
+      "total_books": 18,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Lao",
+      "total_authors": 0,
+      "total_books": 17,
+      "translated_books": 1,
+      "translation_percentage": 5.88
+    },
+    {
+      "language_name": "Sinhala",
+      "total_authors": 0,
+      "total_books": 17,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Kazakh",
+      "total_authors": 0,
+      "total_books": 16,
+      "translated_books": 4,
+      "translation_percentage": 25.0
+    },
+    {
+      "language_name": "Kurdish",
+      "total_authors": 0,
+      "total_books": 16,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Uyghur",
+      "total_authors": 0,
+      "total_books": 16,
+      "translated_books": 2,
+      "translation_percentage": 12.5
+    },
+    {
+      "language_name": "Irish",
+      "total_authors": 0,
+      "total_books": 14,
+      "translated_books": 1,
+      "translation_percentage": 7.14
+    },
+    {
+      "language_name": "Gujarati",
+      "total_authors": 0,
+      "total_books": 13,
+      "translated_books": 1,
+      "translation_percentage": 7.69
+    },
+    {
+      "language_name": "Kannada",
+      "total_authors": 0,
+      "total_books": 12,
+      "translated_books": 1,
+      "translation_percentage": 8.33
+    },
+    {
+      "language_name": "Turkmen",
+      "total_authors": 0,
+      "total_books": 11,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Telugu",
+      "total_authors": 0,
+      "total_books": 11,
+      "translated_books": 1,
+      "translation_percentage": 9.09
+    },
+    {
+      "language_name": "Uzbek",
+      "total_authors": 0,
+      "total_books": 11,
+      "translated_books": 1,
+      "translation_percentage": 9.09
+    },
+    {
+      "language_name": "Kyrgyz",
+      "total_authors": 0,
+      "total_books": 10,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Swahili",
+      "total_authors": 0,
+      "total_books": 10,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Tibetan",
+      "total_authors": 0,
+      "total_books": 10,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Khmer",
+      "total_authors": 0,
+      "total_books": 9,
+      "translated_books": 2,
+      "translation_percentage": 22.22
+    },
+    {
+      "language_name": "Bosnian",
+      "total_authors": 0,
+      "total_books": 8,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Odia",
+      "total_authors": 0,
+      "total_books": 6,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Norwegian bokm\u00e5l",
+      "total_authors": 0,
+      "total_books": 6,
+      "translated_books": 6,
+      "translation_percentage": 100.0
+    },
+    {
+      "language_name": "Hawaiian",
+      "total_authors": 0,
+      "total_books": 6,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Amharic",
+      "total_authors": 0,
+      "total_books": 6,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Punjabi",
+      "total_authors": 0,
+      "total_books": 6,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Malayalam",
+      "total_authors": 0,
+      "total_books": 6,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Middle french",
+      "total_authors": 0,
+      "total_books": 5,
+      "translated_books": 1,
+      "translation_percentage": 20.0
+    },
+    {
+      "language_name": "Assamese",
+      "total_authors": 0,
+      "total_books": 5,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Tamil",
+      "total_authors": 0,
+      "total_books": 4,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Middle english",
+      "total_authors": 0,
+      "total_books": 4,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Mayan languages",
+      "total_authors": 0,
+      "total_books": 4,
+      "translated_books": 2,
+      "translation_percentage": 50.0
+    },
+    {
+      "language_name": "Wolof",
+      "total_authors": 0,
+      "total_books": 4,
+      "translated_books": 1,
+      "translation_percentage": 25.0
+    },
+    {
+      "language_name": "Chuvash",
+      "total_authors": 0,
+      "total_books": 3,
+      "translated_books": 1,
+      "translation_percentage": 33.33
+    },
+    {
+      "language_name": "Fula",
+      "total_authors": 0,
+      "total_books": 3,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Haitian creole",
+      "total_authors": 0,
+      "total_books": 3,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Niger-kordofanian languages",
+      "total_authors": 0,
+      "total_books": 3,
+      "translated_books": 1,
+      "translation_percentage": 33.33
+    },
+    {
+      "language_name": "Newari",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 1,
+      "translation_percentage": 50.0
+    },
+    {
+      "language_name": "Breton",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 1,
+      "translation_percentage": 50.0
+    },
+    {
+      "language_name": "Mizo",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Serbian (latin)",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Pashto",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Indic languages",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Kalaallisut",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 2,
+      "translation_percentage": 100.0
+    },
+    {
+      "language_name": "Ganda",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 1,
+      "translation_percentage": 50.0
+    },
+    {
+      "language_name": "Sino-tibetan languages",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Caucasian languages",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Tatar",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Romansh",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Faroese",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Maltese",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 1,
+      "translation_percentage": 50.0
+    },
+    {
+      "language_name": "Esperanto",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Middle high german",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 1,
+      "translation_percentage": 50.0
+    },
+    {
+      "language_name": "Iroquoian languages",
+      "total_authors": 0,
+      "total_books": 2,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Sindhi",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 1,
+      "translation_percentage": 100.0
+    },
+    {
+      "language_name": "Nyanja",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Northwest alaska inupiatun",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Ancient egyptian",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Bantu languages",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "West flemish",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 1,
+      "translation_percentage": 100.0
+    },
+    {
+      "language_name": "Yakut",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Soninke",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Kinyarwanda",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Gondi",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Filipino",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Tigre",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Uncoded languages",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Germanic languages",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 1,
+      "translation_percentage": 100.0
+    },
+    {
+      "language_name": "Syriac",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 1,
+      "translation_percentage": 100.0
+    },
+    {
+      "language_name": "Kabyle",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Iranian languages",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Kumyk",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Samoan",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 1,
+      "translation_percentage": 100.0
+    },
+    {
+      "language_name": "Kara-kalpak",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Bashkir",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Ossetic",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Efik",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Luxembourgish",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Australian languages",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Somali",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Xhosa",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Finno-ugrian languages",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Slavic languages",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "M\u0101ori",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Kurukh",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Bambara",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    },
+    {
+      "language_name": "Interlingua",
+      "total_authors": 0,
+      "total_books": 1,
+      "translated_books": 0,
+      "translation_percentage": 0.0
+    }
+  ],
+  "top_subjects_by_books": [
+    {
+      "book_count": 129189,
+      "name": "statistics"
+    },
+    {
+      "book_count": 77376,
+      "name": "mathematics"
+    },
+    {
+      "book_count": 13321,
+      "name": "population"
+    },
+    {
+      "book_count": 10987,
+      "name": "logic"
+    },
+    {
+      "book_count": 10708,
+      "name": "algebra"
+    },
+    {
+      "book_count": 9660,
+      "name": "economic conditions"
+    },
+    {
+      "book_count": 9390,
+      "name": "education"
+    },
+    {
+      "book_count": 8871,
+      "name": "census"
+    },
+    {
+      "book_count": 8622,
+      "name": "history"
+    },
+    {
+      "book_count": 7915,
+      "name": "geometry"
+    },
+    {
+      "book_count": 7708,
+      "name": "science mathematics"
+    },
+    {
+      "book_count": 7411,
+      "name": "congresses"
+    },
+    {
+      "book_count": 6504,
+      "name": "general"
+    },
+    {
+      "book_count": 6377,
+      "name": "agriculture"
+    },
+    {
+      "book_count": 6305,
+      "name": "study and teaching"
+    },
+    {
+      "book_count": 6179,
+      "name": "problems exercises"
+    },
+    {
+      "book_count": 6059,
+      "name": "probabilities"
+    },
+    {
+      "book_count": 5908,
+      "name": "calculus"
+    },
+    {
+      "book_count": 5402,
+      "name": "differential equations"
+    },
+    {
+      "book_count": 5323,
+      "name": "science"
+    },
+    {
+      "book_count": 5010,
+      "name": "social conditions"
+    },
+    {
+      "book_count": 4746,
+      "name": "study and teaching elementary"
+    },
+    {
+      "book_count": 4663,
+      "name": "philosophy"
+    },
+    {
+      "book_count": 4371,
+      "name": "early works to"
+    },
+    {
+      "book_count": 4128,
+      "name": "textbooks"
+    }
+  ],
+  "top_subjects_by_rating": [
+    {
+      "average_rating": 4.15,
+      "name": "generic differential quadrature"
+    },
+    {
+      "average_rating": 4.15,
+      "name": "geoinformatics"
+    },
+    {
+      "average_rating": 4.15,
+      "name": "symbolic numeric computation"
+    },
+    {
+      "average_rating": 4.15,
+      "name": "differential quadrature"
+    },
+    {
+      "average_rating": 4.15,
+      "name": "general field problems"
+    },
+    {
+      "average_rating": 4.15,
+      "name": "implicitization"
+    },
+    {
+      "average_rating": 4.15,
+      "name": "discrete element analysis"
+    },
+    {
+      "average_rating": 4.15,
+      "name": "gps meteorology"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "adjoint representation"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "torsion th\u00e9orie de la alg\u00e8bre"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "genetic heterogeneity"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "quotients"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "transformation group"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "publication bias"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "teoria geom\u00e9trica de invariantes"
+    },
+    {
+      "average_rating": 4.14,
+      "name": "clinical trial"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "projective duality"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "projectieve ruimten"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "reductive monoid"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "discriminant"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "dualit\u00e9 principe de math\u00e9matiques"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "point estimation"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "homogene komplexe mannigfaltigkeit"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "homogene ruimten"
+    },
+    {
+      "average_rating": 4.13,
+      "name": "dual variety"
+    }
+  ],
+  "top_works_by_favorites": [
+    {
+      "author": "",
+      "favorite_count": 1,
+      "title": "Topology design of structures"
+    },
+    {
+      "author": "",
+      "favorite_count": 1,
+      "title": "Design of Experiments and Advanced Statistical Techniques in Clinical Research"
+    },
+    {
+      "author": "",
+      "favorite_count": 1,
+      "title": "Fundamentals of clinical trials"
+    }
+  ]
+}

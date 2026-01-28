@@ -114,4 +114,9 @@ def get_subjects():
     subjects = db.get_subjects()
     return jsonify(subjects)
 
-
+@app.route("/statistics")
+def get_statistics():
+    stats_dto = db.get_statistics()
+    if stats_dto:
+        return jsonify(stats_dto.model_dump())
+    return jsonify({"error": "Could not retrieve statistics"}), 500

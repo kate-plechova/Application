@@ -3,6 +3,7 @@ from mysql.connector import pooling
 from dtos import BookDto
 import uuid
 from dotenv import load_dotenv
+from dtos import StatisticsDto, GeneralStatsDto, SubjectStatDto, SubjectRatingDto, LanguageStatDto, FavoriteWorkDto
 import os
 
 load_dotenv()
@@ -560,4 +561,129 @@ class DB:
                 dto[row[0]] = row[1]
             return dto
         finally: 
+            conn.close()
+
+    def get_statistics(self) -> StatisticsDto:
+        conn = self._get_connection()
+        cursor = conn.cursor(dictionary=True)
+        
+        try:
+            # General Stats
+            cursor.execute("SELECT COUNT(*) AS total_books FROM works")
+            total_books = cursor.fetchone()['total_books']
+
+            cursor.execute("SELECT COUNT(*) AS total_authors FROM authors")
+            total_authors = cursor.fetchone()['total_authors']
+
+            cursor.execute("SELECT COUNT(*) AS total_subjects FROM subjects")
+            total_subjects = cursor.fetchone()['total_subjects']
+
+            cursor.execute("SELECT COUNT(*) AS total_languages FROM languages")
+            total_languages = cursor.fetchone()['total_languages']
+
+            cursor.execute("SELECT AVG(rating) AS average_rating FROM works WHERE rating IS NOT NULL")
+            average_rating = cursor.fetchone()['average_rating']
+            
+            general_stats = GeneralStatsDto(
+                total_books=total_books,
+                total_authors=total_authors,
+                total_subjects=total_subjects,
+                total_languages=total_languages,
+                average_rating=round(average_rating, 2) if average_rating is not None else None
+            )
+
+            # Top Subjects by Books
+            cursor.execute("""
+                SELECT
+                    s.name,
+                    COUNT(ws.work_id) AS book_count
+                FROM
+                    subjects s
+                JOIN
+                    work_subjects ws ON s.id = ws.subject_id
+                GROUP BY
+                    s.name
+                ORDER BY
+                    book_count DESC
+                LIMIT 25
+            """)
+            top_subjects_by_books = [SubjectStatDto(**row) for row in cursor.fetchall()]
+
+            # Average Rating per Subject
+            cursor.execute("""
+                SELECT
+                    s.name,
+                    AVG(w.rating) AS average_rating
+                FROM
+                    subjects s
+                JOIN
+                    work_subjects ws ON s.id = ws.subject_id
+                JOIN
+                    works w ON ws.work_id = w.id
+                WHERE
+                    w.rating IS NOT NULL
+                GROUP BY
+                    s.name
+                ORDER BY
+                    average_rating DESC
+                LIMIT 25
+            """)
+            top_subjects_by_rating = [SubjectRatingDto(name=row['name'], average_rating=round(row['average_rating'], 2)) for row in cursor.fetchall()]
+
+            # Language Statistics
+            cursor.execute("""
+                SELECT
+                    l.full_name AS language_name,
+                    COUNT(w.id) AS total_books,
+                    SUM(CASE WHEN w.is_translation = TRUE THEN 1 ELSE 0 END) AS translated_books,
+                    (SUM(CASE WHEN w.is_translation = TRUE THEN 1 ELSE 0 END) * 100.0 / COUNT(w.id)) AS translation_percentage
+                FROM
+                    languages l
+                JOIN
+                    works w ON l.code = w.original_language
+                GROUP BY
+                    l.full_name
+                ORDER BY
+                    total_books DESC
+            """)
+            language_stats = []
+            results = cursor.fetchall()
+            for row in results:
+                language_stats.append(LanguageStatDto(
+                    language_name=row['language_name'],
+                    total_books=row['total_books'],
+                    translated_books=row['translated_books'],
+                    translation_percentage=round(row['translation_percentage'], 2)
+                ))
+
+            # Top Works by Favorites
+            cursor.execute("""
+                SELECT
+                    w.title,
+                    COUNT(uf.work_id) AS favorite_count
+                FROM
+                    works w
+                JOIN
+                    user_favorites uf ON w.id = uf.work_id
+                GROUP BY
+                    w.title
+                ORDER BY
+                    favorite_count DESC
+                LIMIT 10
+            """)
+            top_works_by_favorites = [FavoriteWorkDto(**row) for row in cursor.fetchall()]
+
+            return StatisticsDto(
+                general_stats=general_stats,
+                top_subjects_by_books=top_subjects_by_books,
+                top_subjects_by_rating=top_subjects_by_rating,
+                language_stats=language_stats,
+                top_works_by_favorites=top_works_by_favorites
+            )
+
+        except Exception as e:
+            print(f"Error getting statistics: {e}")
+            return None
+        finally:
+            cursor.close()
             conn.close()

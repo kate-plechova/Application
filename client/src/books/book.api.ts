@@ -59,10 +59,22 @@ export const bookApi = api.injectEndpoints({
                 if(result.error) return { error: result.error as any }
 
                 const data = result.data as SearchResult
-                const books = data.books.map(bookDtoToBook)
+                const books = data.books.map(b => {
+                    try{
+                        return bookDtoToBook(b)
+                    }
+                    catch(err){
+                        console.error(err)
+                    }
+                }) as Book[]
 
                 books.forEach(book => {
-                    dispatch(bookApi.util.upsertQueryData('getBook', book.id, book))
+                    try{
+                        dispatch(bookApi.util.upsertQueryData('getBook', book.id, book))
+                    }
+                    catch(error){
+                        console.error(error)
+                    }
                 })
 
                 return { data: books.map(book => book.id)}

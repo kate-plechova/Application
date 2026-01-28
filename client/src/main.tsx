@@ -6,6 +6,7 @@ import { Provider } from 'react-redux'
 import { store } from './app/store.ts'
 import { BrowserRouter, Route, Routes } from 'react-router'
 import { StatPage } from './stats/StatPage.tsx'
+import { MainLayout } from './common/MainLayout.tsx'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -14,6 +15,11 @@ createRoot(document.getElementById('root')!).render(
         <Routes>
           <Route path='/' element={<App />} />
           <Route path="/stats" element={<StatPage />} />
+
+          <Route path="layout" element={<MainLayout />}>
+            <Route index element={<div>DUDE</div>} />
+            <Route path="stats" element={<StatPage />} />
+          </Route>
         </Routes>
         {/* <App /> */}
       </BrowserRouter>

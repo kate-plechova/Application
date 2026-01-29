@@ -7,6 +7,7 @@ export const useAutologin = (skip: boolean = false) => {
     const dispatch = useAppDispatch()
 
     const saveToLocalStorage = (data: UserSlice['data']) => {
+        if(data === null) return
         localStorage.setItem('auth', JSON.stringify(data))
     }
 
@@ -19,8 +20,10 @@ export const useAutologin = (skip: boolean = false) => {
         if(skip) return
         try{
             const stored = localStorage.getItem('auth') 
-            if(stored === null) return
-            const data = JSON.parse(stored) as UserSlice['data']
+            if(stored === null || stored === 'null') {
+                localStorage.removeItem('auth')
+            }
+            const data = JSON.parse(stored!) as UserSlice['data']
 
             dispatch(setData(data))
         }

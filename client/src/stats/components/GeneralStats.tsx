@@ -7,8 +7,10 @@ export const GeneralStats: FC<GeneralStatsDto> = (dto) => {
             <h2 className="text-4xl font-medium">General Stats</h2>
             <table className="table">
                 <thead>
-                    <th></th>
-                    <th>Amount</th>
+                    <tr>
+                        <th></th>
+                        <th>Amount</th>
+                    </tr>
                 </thead>
                 <tbody>
 

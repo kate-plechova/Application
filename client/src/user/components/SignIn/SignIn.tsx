@@ -4,6 +4,7 @@ import { AuthForm, type Auth } from "../AuthForm/AuthForm";
 import { ErrorMessage } from "../ErrorMessage/ErrorMessage";
 import { useAppDispatch } from "../../../app/hooks";
 import { setData } from "../../user.slice";
+import { useAutologin } from "../../autoLogHook";
 
 export interface SignInProps {
     closeModal: () => void
@@ -13,10 +14,12 @@ export const SignIn: FC<SignInProps> = ({closeModal}) => {
 
     const dispatch = useAppDispatch()
     const [signin, {error}] = useSigninMutation()
+    const { saveToLocalStorage } = useAutologin(true)
 
     const handleSignin = async (data: Auth) => {
         try {
             const res = await signin(data).unwrap()
+            saveToLocalStorage(res)
             dispatch(setData(res))
             closeModal()
         } catch (err) {

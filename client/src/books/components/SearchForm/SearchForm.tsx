@@ -4,6 +4,7 @@ import { useGetLanguagesQuery, useLazySearchQuery } from "../../book.api";
 import { BookOpenIcon, MagnifyingGlassIcon, UserIcon } from "@heroicons/react/24/outline";
 import { LanguageIcon } from "@heroicons/react/24/outline";
 import { langs } from "../../../langs";
+import { useNavigate, useSearchParams } from "react-router";
 
 export interface SearchParams {
     title?: string
@@ -28,6 +29,8 @@ const subjects: {[key: string]: string} = {
 export const SearchForm: FC<SearchFormProps> = ({search}) => {
 
     // const [search, ] = useLazySearchQuery()
+    const navigate = useNavigate()
+    const [_, setSearchParams] = useSearchParams()
 
     const { data: langs } = useGetLanguagesQuery()
 
@@ -38,6 +41,8 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
         formState: { errors }
     } = useForm<SearchParams>()
 
+
+
     const onSubmit = (data: SearchParams) => {
         const hasSearchTerm = Object.values(data).some(value => value && value.trim())
 
@@ -46,12 +51,35 @@ export const SearchForm: FC<SearchFormProps> = ({search}) => {
             return
         }
 
-        const req: SearchParams = {}
-        if(data.title)
+        // const req: SearchParams = {}
+        const req: Record<string, string> = {}
+        // const req: URLSearchParams = new URLSearchParams()
+
+        let searchQueryArgs = [] 
+        if(data.title){
             req.title = data.title
-        if(data.author)
+            searchQueryArgs.push(`title=${data.title}`)
+        }
+        if(data.author){
             req.author = data.author
-        search(req)
+            searchQueryArgs.push(`author=${data.author}`)
+        }
+        if(data.lang && data.lang.length > 0){
+            req.lang = data.lang
+            searchQueryArgs.push(`lang=${data.lang}`)
+        }
+        if(data.subject){
+            req.subject = data.subject
+            searchQueryArgs.push(`subject=${data.subject}`) 
+        }
+
+        setSearchParams(req)
+        // navigate({
+        //     pathname: "/layout",
+        //     search: `?${searchQueryArgs.join("&")}`
+        // })
+
+        // search(req)
     }
 
     return (

@@ -101,6 +101,8 @@ export const {
     useLazyGetBookQuery,
     useSearchQuery,
     useLazySearchQuery,
+
+    useGetBookmarkedQuery,
     useLazyGetBookmarkedQuery,
 
     useGetLanguagesQuery

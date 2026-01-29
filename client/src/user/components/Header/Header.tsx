@@ -3,10 +3,12 @@ import { useAppDispatch, useAppSelector } from "../../../app/hooks";
 import { selectIsOnBookmarks, selectUserData } from "../../user.selectors";
 // import { SignIn } from "../SignIn/SignIn";
 // import { Sidebar } from "../Sidebar/Sidebar";
+import { useAutologin } from "../../autoLogHook";
 import { SigninButton } from "../SigninButton/SigninButton";
 import { ArrowLeftIcon, BookmarkIcon } from "@heroicons/react/24/outline";
 import { reset, showBookmarks } from "../../user.slice";
 import { ArrowLeftStartOnRectangleIcon } from "@heroicons/react/24/outline";
+import { NavLink } from "react-router";
 
 
 export const Header: FC = () => {
@@ -14,6 +16,7 @@ export const Header: FC = () => {
     const dispatch = useAppDispatch()
     const userData = useAppSelector(selectUserData)
     const onBookmarks = useAppSelector(selectIsOnBookmarks)
+    const { clear } = useAutologin(true)
 
     // const showModal = () => {
     //     const dialog = document.getElementById("auth") as HTMLDialogElement | null
@@ -23,9 +26,11 @@ export const Header: FC = () => {
         
     // }
 
+    const navLinkStyle = ({isActive} : {isActive: boolean}) => isActive ? "text-slate-200" : "text-slate-800"
+
     return (
         <header
-            className="w-full h-11 flex flex-row justify-between items-center bg-emerald-300 z-50 relative px-3"
+            className="absolute top-0 left-0 w-full h-11 flex flex-row justify-between items-center bg-emerald-300 z-50 px-3"
         >
             <div className="flex-none">
                 { onBookmarks ? (
@@ -44,7 +49,10 @@ export const Header: FC = () => {
                         </button>
                         <div>{userData.username}</div> 
                         <button
-                            onClick={() => dispatch(reset())}     
+                            onClick={() => {
+                                clear()
+                                dispatch(reset())
+                            }}     
                         >
                             <ArrowLeftStartOnRectangleIcon className="size-5" />
                         </button>
@@ -52,6 +60,13 @@ export const Header: FC = () => {
                 ) : <SigninButton />}
             </div>
             <div className="grow w-1" />
+
+            <div className="flex flex-row justify-around items-center">
+                <NavLink to="/layout" end className={navLinkStyle}>Books</NavLink>
+                <NavLink to="/layout/stats" end className={navLinkStyle}>Stats</NavLink>
+                {userData && <NavLink to="/layout/bookmarks" end>Bookmarks</NavLink>}
+            </div>
+
 
             <ul
                 className="flex flex-row justify-start items-center gap-4 text-slate-800" 

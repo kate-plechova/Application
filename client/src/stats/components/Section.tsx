@@ -50,16 +50,16 @@ export const Section = <T extends object>({title, data, table, chart}: SectionPr
                 <table className="table table-pin-rows">
                     <thead>
                         <tr>
-                            {table.columns.map(col => (
-                                <th>{col.toString()}</th>
+                            {table.columns.map((col, i) => (
+                                <th key={i}>{col.toString()}</th>
                             ))}
                         </tr>
                     </thead> 
                     <tbody>
-                        {data.map(item => (
-                            <tr>
-                                {table.columns.map(col => (
-                                    <td>{`${item[col]}`}</td>
+                        {data.map((item, idx) => (
+                            <tr key={idx}>
+                                {table.columns.map((col, i) => (
+                                    <td key={i}>{`${item[col]}`}</td>
                                 ))}
                             </tr>
                         ))}

@@ -6,13 +6,22 @@ import { BookItem } from "../BookItem/BookItem";
 import { Books } from "../Books/Books";
 import { useAppSelector } from "../../../app/hooks";
 import { selectIsOnBookmarks } from "../../../user/user.selectors";
+import { useSearchParams } from "react-router";
+// import { type SearchParams } from "../SearchForm/SearchForm";
 
 export const BookPage: FC = () => {
+
+    const [params, ] = useSearchParams()
 
     const [search, {data: searchResult}] = useLazySearchQuery()
     const [getBookmarked, {data: bookmarked}] = useLazyGetBookmarkedQuery()
 
     const onBookmarks = useAppSelector(selectIsOnBookmarks)
+
+    useEffect(() => {
+        if(Object.keys.length > 0) 
+            search(Object.fromEntries(params))
+    }, [params])
 
     useEffect(() => {
         if(onBookmarks){
@@ -22,7 +31,7 @@ export const BookPage: FC = () => {
 
     return (
         <div 
-            className="w-full grow flex flex-col items-center overflow-y-auto"
+            className="w-full h-full grow flex flex-col justify-between items-center overflow-y-auto"
             // data-theme='light'
         >
             {!onBookmarks && <SearchForm search={search}/>}

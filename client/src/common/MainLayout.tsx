@@ -1,8 +1,12 @@
 import type { FC } from "react";
 import { Outlet } from "react-router";
 import { Header } from "../user/components/Header/Header";
+import { useAutologin } from "../user/autoLogHook";
 
 export const MainLayout: FC = () => {
+
+    useAutologin()
+
     return (
         <div 
             className="w-full h-full p-0 m-0 flex flex-col justify-center items-stretch"

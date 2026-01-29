@@ -10,7 +10,7 @@ export const SubjectStats: FC<SubjectStatsProps> = ({data}) => {
 
     const chartData = useMemo(() => {
         const major = data.slice(0, 10)
-        const minorPercentage = data.slice(10).reduce((acc, item) => acc + item.total_books, 0)
+        const minorPercentage = data.slice(10).reduce((acc, item) => acc + item.book_count, 0)
         return [
         {
             data: [

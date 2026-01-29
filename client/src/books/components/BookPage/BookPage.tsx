@@ -19,9 +19,9 @@ export const BookPage: FC = () => {
     const onBookmarks = useAppSelector(selectIsOnBookmarks)
 
     useEffect(() => {
-        if(Object.keys.length > 0) 
+        if(params.size > 0) 
             search(Object.fromEntries(params))
-    }, [params])
+    }, [params, search])
 
     useEffect(() => {
         if(onBookmarks){
